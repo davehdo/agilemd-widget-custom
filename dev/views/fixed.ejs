@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>AgileMD Widget: Full-frame demo</title>
+
+    <% include _head.ejs %>
+
+    <style type="text/css">
+      #app {
+        margin: 0px auto;
+        position: relative;
+        width: 380px;
+      }
+
+      #app > img {
+        position: relative;
+      }
+
+      #agilemd {
+        position: absolute !important;
+          top: 137px;
+          left: 33px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <img src="/img/iphone5s.png">
+      <div id="agilemd" style="width:318px; height:548px;"></div>
+    </div>
+  </body>
+</html>

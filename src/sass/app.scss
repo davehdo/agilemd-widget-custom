@@ -1,0 +1,89 @@
+@import "utility/constants";
+@import "utility/icons";
+@import "utility/mixins";
+
+@import "navigator/folder";
+@import "navigator/top";
+
+@import "file/algorithm";
+@import "file/document";
+
+
+html, body {
+  &.aglmd-is-body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+#agilemd {
+
+  background: $color-5-0;
+  color: $color-4-3;
+  font: $height-font $font-face-light;
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  &.aglmd-content-fixed {
+    .aglmd-content {
+      overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    &.aglmd-has-navigation {
+      .aglmd-content {
+        top: 1.5*$gutter-double + 1;
+      }
+    }
+  }
+
+  *, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
+  a, .aglmd-a {
+    @include link($color-3-1);
+  }
+
+  .aglmd-content {
+    position: relative;
+  }
+
+  .aglmd-nostyles {
+    display: none !important;
+  }
+
+  ol, ul {
+    &.bullet {
+      list-style: inside disc;
+    }
+
+    &.numbered {
+      list-style: inside decimal;
+    }
+  }
+
+  sup, sub {
+    font-size: 0.8em;
+  }
+
+  sup {
+    vertical-align: super;
+  }
+
+  sub {
+    vertical-align: sub;
+  }
+
+}

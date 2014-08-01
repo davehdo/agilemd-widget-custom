@@ -1,0 +1,177 @@
+@import "utility/constants";
+@import "utility/icons";
+
+
+#agilemd {
+
+  .aglmd-navigation {
+    border-bottom: 1px solid $color-4-6;
+    height: 1.5*$gutter-double + 1px;
+    position: relative;
+
+    &.aglmd-has-art {
+      .aglmd-navigation-art {
+        position: absolute;
+          top: 0;
+          left: 0;
+      }
+
+      .aglmd-navigation-title, .aglmd-navigation-subtitle {
+        padding-left: 1.5*$gutter-double + $gutter-half;
+      }
+
+      &.aglmd-has-back {
+        .aglmd-navigation-art {
+          position: absolute;
+            top: 0;
+            left: 0.875*$gutter-double;
+        }
+
+        .aglmd-navigation-title, .aglmd-navigation-subtitle {
+          padding-left: 0.875*$gutter-double + 1.5*$gutter-double + $gutter-half;
+        }
+      }
+    }
+
+    &.aglmd-has-back {
+      .aglmd-navigation-back {
+        position: absolute;
+          top: 0;
+          left: 0;
+      }
+
+      .aglmd-navigation-title, .aglmd-navigation-subtitle {
+        padding-left: 0.875*$gutter-double;
+      }
+    }
+
+    &.aglmd-has-subtitle {
+      .aglmd-navigation-title {
+        height: 1.5*$gutter;
+        line-height: normal;
+        padding-top: $gutter-half;
+      }
+    }
+
+    .aglmd-navigation-art {
+      @include noselect();
+
+      cursor: pointer;
+      display: inline-block;
+      float: left;
+      height: 1.5*$gutter-double;
+      width: 1.5*$gutter-double;
+    }
+
+    .aglmd-navigation-back {
+      @include icon-chevron();
+      @include noselect();
+
+      background-position: 0.75*$gutter-half center;
+      background-repeat: no-repeat;
+      background-size: 15px 30px;
+      cursor: pointer;
+      display: inline-block;
+      float: left;
+      height: 1.5*$gutter-double;
+      margin: 0;
+      padding: 0;
+      width: 0.875*$gutter-double;
+    }
+
+    .aglmd-navigation-title, .aglmd-navigation-subtitle {
+      margin: 0;
+      padding: 0;
+    }
+
+    .aglmd-navigation-title {
+      @include nowrap();
+
+      float: left;
+      font-size: $height-font-alt-m;
+      height: 1.5*$gutter-double;
+      line-height: 1.5*$gutter-double;
+      padding: 0 1.5*$gutter-half;
+      width: 100%;
+    }
+
+    .aglmd-navigation-subtitle {
+      @include nowrap();
+
+      color: $color-4-1;
+      float: left;
+      height: 1.5*$gutter;
+      padding: 0 1.5*$gutter-half;
+      width: 100%;
+    }
+  }
+
+  .aglmd-folder-items {
+    margin: 0;
+    padding: 0 0 $gutter-double 0;
+
+    .aglmd-folder-item {
+      border-bottom: 1px solid $color-4-6;
+      cursor: pointer;
+      margin: 0;
+      padding: 1.5*$gutter-half 0;
+      position: relative;
+
+      &.aglmd-folder-item-folder {
+        padding-right: 1.25 * $gutter-double;
+      }
+
+      &.aglmd-folder-item-algorithm {
+        @include icon-file-algorithm();
+      }
+
+      &.aglmd-folder-item-flowchart {
+        @include icon-file-flowchart();
+      }
+
+      &.aglmd-folder-item-pdf {
+        @include icon-file-pdf();
+      }
+
+      &.aglmd-folder-item-algorithm,
+      &.aglmd-folder-item-flowchart,
+      &.aglmd-folder-item-pdf {
+        background-position: $gutter-half center;
+        background-repeat: no-repeat;
+        background-size: 30px 24px;
+
+        padding-left: $gutter-double - $gutter-quarter;
+      }
+    }
+
+    .aglmd-folder-count {
+      background: $color-4-4;
+      color: $color-4-0;
+      display: block;
+      line-height: $height-font-m;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+      text-align: center;
+      width: 1.25 * $gutter-double;
+
+      span {
+        display: block;
+        margin-top: -1 * $height-font-m + 1px;
+        position: absolute;
+          left: 0;
+          top: 50%;
+        width: 100%;
+      }
+    }
+
+    .aglmd-folder-title {
+      margin: 0;
+      padding: 0 $gutter-half;
+    }
+  }
+
+}

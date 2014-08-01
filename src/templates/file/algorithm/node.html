@@ -1,0 +1,30 @@
+@!(nodeId, prompt, responses, sections, width)
+
+<div class="aglmd-node" data-nid="@nodeId" style="width: @(width)px;">
+  @if (prompt) {
+    <div class="aglmd-node-prompt">@prompt</div>  
+  }
+
+  @if (responses && responses.length) {
+    <ul class="aglmd-node-responses">
+    @responses.map(function (r) {
+      <li class="aglmd-node-response" data-nid="@r.nodeId">
+        @r.text
+      </li>
+    })
+    </ul>
+  }
+
+  @if (sections && sections.length) {
+    <div class="aglmd-node-sections">
+      @sections.map(function (s) {
+        @if (s.title && s.title.length) {
+          <h2 class="aglmd-header">@s.title</h2>
+          <div class="aglmd-section">@s.content</div>
+        } else {
+          <div class="aglmd-section aglmd-active">@s.content</div>
+        }
+      })
+    </div>
+  }
+</div>

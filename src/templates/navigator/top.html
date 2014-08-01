@@ -1,0 +1,17 @@
+@!(useBack, art, title, subtitle)
+
+@if (useBack) {
+  <p class="aglmd-navigation-back"></p>
+}
+
+@if (art) {
+  <img class="aglmd-navigation-art" src="@art" />
+}
+
+@if (title) {
+  <p class="aglmd-navigation-title">@title</p>
+}
+
+@if (subtitle) {
+  <p class="aglmd-navigation-subtitle">@subtitle</p>
+}

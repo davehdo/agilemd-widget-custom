@@ -1,0 +1,28 @@
+@!(folder)
+
+<div class="aglmd-folder" data-fid="@folder._id">
+  @if (folder.items && folder.items.length) {
+    <ul class="aglmd-folder-items">
+      @folder.items.map(function (f) {
+        @{
+          var _context = 'class="aglmd-folder-item aglmd-folder-item-'  + f.itemType + '"';
+
+          if (f.itemType === 'folder') {
+            _context += ' data-type="' + f.itemType + '"';
+            _context += ' data-fid="' + f.folderId + '"';
+          } else {
+            _context += ' data-type="' + f.itemType + '"';
+            _context += ' data-eid="' + f.entityId + '"';
+            _context += ' data-vid="' + f.versionId + '"';
+          }
+        }
+        <li @_context>
+          <p class="aglmd-folder-title">@f.title</p>
+          @if (f.itemType === 'folder') {
+            <p class="aglmd-folder-count"><span>@(f.fileCount)<br />@(f.fileCount === 1 ? 'file' : 'files')</span></p>
+          }
+        </li>
+      })
+    </ul>
+  }
+</div>

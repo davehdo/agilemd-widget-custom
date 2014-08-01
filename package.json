@@ -1,0 +1,49 @@
+{
+  "name": "widget",
+  "version": "3.0.0",
+  "author": "AgileMD, Inc.",
+  "bugs": {
+    "mail": "support@agilemd.com",
+    "web": "https://github.com/agilemd/widget/issues"
+  },
+  "contributors": [
+    {
+      "name": "Kurt Ericson",
+      "email": "kurt@agilemd.com",
+      "url": "https://github.com/kurttheviking"
+    }
+  ],
+  "dependencies": {
+    "backdash": "1.1.2-2.4.1",
+    "lodash": "2.4.1"
+  },
+  "devDependencies": {
+    "argparse": "0.1.15",
+    "blissify": "1.0.0",
+    "browserify": "5.9.1",
+    "ejs-locals": "1.0.2",
+    "envify": "2.0.1",
+    "express": "3.2.2",
+    "mkdirp": "0.5.0",
+    "uglifyify": "2.5.0",
+    "watchify": "1.0.1"
+  },
+  "homepage": "http://www.agilemd.com/integrations/widget",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/agilemd/web-sdk/blob/master/LICENSE.md"
+    }
+  ],
+  "main": "src/app.js",
+  "private": true,
+  "scripts": {
+    "dev": "node ./dev/server & node bundler -w -m & rm -rf _build/css & sass --watch src/sass:_build/css",
+    "build": "node bundler && rm -rf _build/css && sass --update src/sass:_build/css --style compressed",
+    "zip": "gzip -9 _build/app.js && mv _build/app.js.gz _build/app.js && gzip -9 _build/css/app.css && mv _build/css/app.css.gz _build/css/app.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agilemd/web-sdk"
+  }
+}

@@ -1,0 +1,42 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=1">
+
+<link rel="shortcut icon" href="https://d1aldtm5xff1vn.cloudfront.net/static/favicon.ico" type="image/x-icon" />
+
+<script>
+  (function (d, a) {
+    window.agilemd = a;
+    var q, r, s, t;
+    q = ['init', 'open', 'on'];
+    s = d.createElement('script');
+    s.type = 'text/javascript';
+    s.async = !0;
+    s.src = '/app.js';
+    a._v = 3.0; a._s = s.src; a._q = [];
+    r = function (m) {
+      return function () {
+        a._q.push([m, Array.prototype.slice.call(arguments)]);
+      };
+    };
+    for (i = 0; i < q.length; i++) {
+      a[q[i]] = r(q[i]);
+    }
+    t = d.getElementsByTagName('script')[0];
+    t.parentNode.insertBefore(s, t);
+  })(document, window.agilemd || {});
+
+  // use in local development only; toggles asset location (local vs CDN)
+  agilemd.DEBUG = true;
+
+  // the public demo account; no referer or CDIR validation; throttled
+  agilemd.init({
+    email: 'hello@agilemd.com',
+    key: 'pk_test_2anGbkcDbLVnMxfZa3ghfmz61syheLFfnDYCQEDxUTaf3axr'
+  });
+
+  // agilemd.open('file', '518d6b4d8c0cc8a65f000001');
+
+  agilemd.on('all', function (eventName, eventData) {
+    console.log(eventName, eventData);
+  });
+</script>
