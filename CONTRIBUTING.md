@@ -17,8 +17,8 @@ If you desire a new feature, find a bug, or identify an opportunity to improve o
 
 To reduce review time and encourage discussion, we provide a template for two common issue types:
 
-- New feature or enhancement
-- Bug report
+- [New feature or enhancement request](https://github.com/agilemd/widget/wiki/Issue-Templates#enhancement)
+- [Bug report](https://github.com/agilemd/widget/wiki/Issue-Templates#bug)
 
 Do not create issues for personal support requests. Instead email support@agilemd.com.
 
