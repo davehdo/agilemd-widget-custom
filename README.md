@@ -55,7 +55,7 @@ Within the `<body>` of your document:
 - Support Matrix
 - Public & Private Keys
 - Release Strategy & History
-- Issue Templates
+- [Issue Templates](https://github.com/agilemd/widget/wiki/Issue-Templates)
 - [Style Guide](https://github.com/agilemd/widget/wiki/Style-Guide)
 
 
