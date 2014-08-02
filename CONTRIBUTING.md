@@ -9,7 +9,9 @@ Finally, you need a [GitHub account](https://github.com/join) to contribute to t
 
 ### Issues
 
-We use GitHub Issues to track and manage project changes. Before filing a new issue, verify that a similar request does not yet exists by browsing [open issues](https://github.com/agilemd/widget/issues). We expect all non-trivial commits to be associated with an open issue.
+We use GitHub Issues to track and manage project changes while coordinating delivery targets for published releases using [milestones](https://github.com/agilemd/widget/milestones).
+
+Before filing a new issue, verify that a similar request does not yet exists by browsing [open issues](https://github.com/agilemd/widget/issues). We expect all non-trivial commits to be associated with an open issue.
 
 If you desire a new feature, find a bug, or identify an opportunity to improve our documentation, please submit an issue to this repository. Better yet, submit an issue as well as a [pull request](https://help.github.com/articles/using-pull-requests) for our team to review. For larger features, it is best to open a `question` issue first to discuss the idea with our team. Otherwise, you may invest significant time in something that is never merged because it is not in the best interest of the broader community.
 
