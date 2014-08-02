@@ -60,7 +60,7 @@ Within the `<body>` of your document:
 
 ### Get an API Key
 
-Access to AgileMD content via widget requires a Public API Key. You can obtain a key for your poject by contacting support@agilemd.com.
+Access to AgileMD content via widget requires a Public API Key. You can obtain a key for your project by contacting support@agilemd.com.
 
 
 ### Contribute
