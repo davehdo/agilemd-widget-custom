@@ -46,7 +46,7 @@ Do not create issues for personal support requests. Instead email support@agilem
    ```
 
 4. Commit your changes in logical chunks. Attach short, clear commit messages. If needed, use Git's
-   [interactive rebase](https://help.github.com/articles/about-git-rebase) feature to condense commits before making them public. Never rebase previously pushed history. We'd rather error on the side of a few "work-in-progress" commits than rewrite the global history.
+   [interactive rebase](https://help.github.com/articles/about-git-rebase) feature to condense commits before making them public. Never rebase previously pushed history. We would rather error on the side of a few "work-in-progress" commits than risk rewriting the global project history.
 
 5. Locally merge (or rebase) the upstream master branch into your topic branch.
 
