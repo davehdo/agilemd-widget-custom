@@ -56,6 +56,7 @@ Within the `<body>` of your document:
 - Public & Private Keys
 - Release Strategy & History
 - Issue Templates
+- [Style Guide](https://github.com/agilemd/widget/wiki/Style-Guide)
 
 
 ### Get an API Key
