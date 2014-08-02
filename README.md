@@ -5,7 +5,7 @@
 Widget
 ======
 
-A programmatic, web-based view for [AgileMD](http://www.agilemd.com) designed for embedded applications.
+A programmatic, embeddable, web-based view for [AgileMD](http://www.agilemd.com).
 
 
 ### Instantiation
