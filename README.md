@@ -10,7 +10,7 @@ A programmatic, embeddable, web-based view for [AgileMD](http://www.agilemd.com)
 
 ### Instantiation
 
-Within the `<head>` of your document, add a `<script>` block with the following contents:
+Within the `<head>` of your document, add a `<script>` block containing:
 
 ```javascript
 (function (d, a) {
