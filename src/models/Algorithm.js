@@ -37,7 +37,7 @@ var Algorithm = Model.extend({
     this.fetch({
       beforeSend: session.inject,
       error: function (req, status, err) {
-        io.alert('failed to retrieve algorithm with fileId=' + entityId);
+        io.crit('failed to retrieve algorithm with fileId=' + entityId);
       }
     });
   },

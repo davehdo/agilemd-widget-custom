@@ -29,7 +29,7 @@ var Module = Model.extend({
     this.fetch({
       beforeSend: session.inject,
       error: function (req, status, err) {
-        io.alert('failed to retrieve module with moduleId=' + this.id);
+        io.crit('failed to retrieve module with moduleId=' + this.id);
       }
     });
   },

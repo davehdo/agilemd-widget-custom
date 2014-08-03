@@ -23,7 +23,7 @@ var Modules = Collection.extend({
     this.fetch({
       beforeSend: session.inject,
       error: function (req, status, err) {
-        io.alert('failed to retrieve modules');
+        io.crit('failed to retrieve modules');
       }
     });
   },
