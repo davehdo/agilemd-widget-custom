@@ -54,7 +54,7 @@ Within the `<body>` of your document:
 - Client Errors
 - Support Matrix
 - Public & Private Keys
-- Release Strategy & History
+- [Release Strategy & History](https://github.com/agilemd/widget/wiki/Release-Strategy-&-History)
 - [Issue Templates](https://github.com/agilemd/widget/wiki/Issue-Templates)
 - [Style Guide](https://github.com/agilemd/widget/wiki/Style-Guide)
 
