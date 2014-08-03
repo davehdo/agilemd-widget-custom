@@ -76,7 +76,7 @@ var Folder = B.View.extend({
     var firstModule = this.collection.first();
 
     if (!firstModule) {
-      io.crit('no default module could be found');
+      io.alert('no default module could be found');
       return;
     }
 
