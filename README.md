@@ -10,9 +10,9 @@ A programmatic, embeddable, web-based view for [AgileMD](http://www.agilemd.com)
 
 ### Instantiation
 
-Within the `<head>` of your document:
+Within the `<head>` of your document, add a `<script>` block with the following contents:
 
-```
+```javascript
 (function (d, a) {
   window.agilemd = a;
   var q, r, s, t;
@@ -42,14 +42,14 @@ agilemd.init({
 
 Within the `<body>` of your document:
 
-```
+```html
 <div id="agilemd"></div>
 ```
 
 
 ### Documentation
 
-- Implementation Options
+- [Implementation](https://github.com/agilemd/widget/wiki/Implementation)
 - Client API
 - Client Errors
 - Support Matrix
