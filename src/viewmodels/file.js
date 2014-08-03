@@ -27,7 +27,7 @@ var ViewModel = ViewModel.extend({
       if (entityId && !versionId) {
         search.byId(entityId, function (results) {
           if (results.length === 0) {
-            io.error('unable to locate valid file for id=' + entityId);
+            io.error('unable to locate valid file for fileId=' + entityId);
             return;
           }
 
