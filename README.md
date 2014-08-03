@@ -51,7 +51,7 @@ Within the `<body>` of your document:
 
 - [Implementation](https://github.com/agilemd/widget/wiki/Implementation)
 - [Client API](https://github.com/agilemd/widget/wiki/Client-API)
-- Client Errors
+- [Client Errors](https://github.com/agilemd/widget/wiki/Client-Errors)
 - Support Matrix
 - Public & Private Keys
 - [Release Strategy & History](https://github.com/agilemd/widget/wiki/Release-Strategy-&-History)
