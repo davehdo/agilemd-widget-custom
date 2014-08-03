@@ -93,7 +93,7 @@ var Algorithm = B.View.extend({
 
       // shortcircuit if missing the target node
       if (!node) {
-        io.warn('nodeId=' + nodeId + ' listed in algorithm history but could not be found');
+        io.error('nodeId=' + nodeId + ' listed in algorithm history but could not be found');
         return;
       }
 
@@ -144,7 +144,7 @@ var Algorithm = B.View.extend({
       var node = algorithm.getNode(nodeId);
 
       if (!node) {
-        io.crit('nodeId=' + nodeId + ' does not exist in algorithm fileId=' + entityId + '; halting node render');
+        io.error('nodeId=' + nodeId + ' does not exist in algorithm fileId=' + entityId + '; halting node render');
         return;
       }
 
