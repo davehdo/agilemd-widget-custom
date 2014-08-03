@@ -50,7 +50,7 @@ Within the `<body>` of your document:
 ### Documentation
 
 - [Implementation](https://github.com/agilemd/widget/wiki/Implementation)
-- Client API
+- [Client API](https://github.com/agilemd/widget/wiki/Client-API)
 - Client Errors
 - Support Matrix
 - Public & Private Keys
