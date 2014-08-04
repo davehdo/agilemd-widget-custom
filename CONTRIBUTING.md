@@ -20,7 +20,7 @@ To reduce review time and encourage discussion, we provide a template for two co
 - [New feature or enhancement request](https://github.com/agilemd/widget/wiki/Issue-Templates#enhancement)
 - [Bug report](https://github.com/agilemd/widget/wiki/Issue-Templates#bug)
 
-Do not create issues for personal support requests. Instead email support@agilemd.com.
+Do not create issues for personal support requests; instead, email support@agilemd.com.
 
 
 ### Pull requests
