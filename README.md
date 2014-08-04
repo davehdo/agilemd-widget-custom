@@ -50,6 +50,7 @@ Within the `<body>` of your document:
 ### Documentation
 
 - [Implementation](https://github.com/agilemd/widget/wiki/Implementation)
+- [Demos](http://agilemd.github.io/widget)
 - [Client API](https://github.com/agilemd/widget/wiki/Client-API)
 - [Client Errors](https://github.com/agilemd/widget/wiki/Client-Errors)
 - [Supported Platforms](https://github.com/agilemd/widget/wiki/Supported-Platforms)
