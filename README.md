@@ -67,7 +67,7 @@ Access to AgileMD content via widget requires a Public API Key. You can obtain a
 
 ### Contribute
 
-First, review our contribution guidelines. Then, [fork](https://github.com/agilemd/widget/fork) and clone this repository to your local machine. You need [node](http://nodejs.org) and [SASS](http://sass-lang.com) installed and available in your `$PATH`.
+First, review our [contribution guidelines](https://github.com/agilemd/widget/blob/master/CONTRIBUTING.md). Then, [fork](https://github.com/agilemd/widget/fork) and clone this repository to your local machine. You need [node](http://nodejs.org) and [SASS](http://sass-lang.com) installed and available in your `$PATH`.
 
 **Development**
 
