@@ -125,8 +125,8 @@ var Folder = B.View.extend({
     } else {
       vmFile.transition({
         type: type,
-        entityId: $item.data('eid'),
-        versionId: $item.data('vid')
+        entityId: $item.attr('data-eid'),
+        versionId: $item.attr('data-vid')
       });
     }
   }
