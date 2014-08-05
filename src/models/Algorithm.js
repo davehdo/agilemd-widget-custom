@@ -18,14 +18,6 @@ var Algorithm = Model.extend({
     rootNodeId: null,
     title: null
   },
-  getNode: function (nodeId) {
-    var nodes = this.get('nodes');
-    var node = _.cloneDeep(nodes[nodeId]);
-
-    node._id = nodeId;
-
-    return node;
-  },
   hydrate: function () {
     var entityId = this.get('_entityId');
 
@@ -46,6 +38,11 @@ var Algorithm = Model.extend({
 
     parsed.rootNodeId = parsed.nodes._rootId;
     delete parsed.nodes._rootId;
+
+    // add an internal property for the keyed node id
+    _.forEach(parsed.nodes, function (node, nodeId) {
+      node._id = nodeId;
+    });
 
     return parsed;
   }

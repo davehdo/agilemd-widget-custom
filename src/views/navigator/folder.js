@@ -123,6 +123,8 @@ var Folder = B.View.extend({
 
       this.viewmodel.set('folders', path);
     } else {
+      this.$el.empty();
+
       vmFile.transition({
         type: type,
         entityId: $item.attr('data-eid'),

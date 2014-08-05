@@ -10,7 +10,7 @@ var templateNode = require('../../templates/file/algorithm/node.html');
 
 
 var Algorithm = B.View.extend({
-  collection: require('../../collections/algorithms'),
+  model: require('../../viewmodels/file'),
   events: (function () {
     var action = env('USE_TAP') ? 'tap' : 'click';
 
@@ -20,54 +20,30 @@ var Algorithm = B.View.extend({
 
     return out;
   })(),
-  viewmodel: require('../../viewmodels/file'),
   template: require('../../templates/file/algorithm.html'),
   initialize: function () {
     _.bindAll(this);
 
-    this.viewmodel.on('change:versionId', function (vm, versionId) {
-      // ignore non-algorithm type files
-      if (vm.get('type') !== 'algorithm') return;
+    this.model.on('change:nodeIds', function (vm, nodeIds) {
+      if (nodeIds && vm.get('type') === 'algorithm') {
+        var $dom = B.$('.aglmd-algorithm-nodes');
 
-      var algorithm = this.collection.get(versionId);
+        // if missing the element frame, render that before waiting
+        // to render the nodes within the frame
+        if (!$dom.length) {
+          this.once('rendered', function () {
+            this.renderAnchor(nodeIds);
+            this.renderNodes(nodeIds);
+          }, this);
 
-      // once scaffold ready, prepare the content
-      this.once('rendered', function () {
-        // if data available, prepare the view immediately
-        // else, hydrate then prepare
-        if (algorithm) {
-          this.prepare(algorithm);
+          this.trigger('render');
           return;
         }
 
-        algorithm = this.collection.add({
-          _id: versionId,
-          _entityId: vm.get('entityId')
-        });
-
-        algorithm.once('sync', function (newAlgorithm) {
-          this.prepare(newAlgorithm);
-        }, this);
-
-        algorithm.hydrate();
-      }, this);
-
-      this.trigger('render');
-    }, this);
-
-    this.viewmodel.on('change:nodeIds', function (vm, nodeIds) {
-      if (nodeIds && vm.get('type') === 'algorithm') {
         this.renderAnchor(nodeIds);
         this.renderNodes(nodeIds);
       }
     }, this);
-  },
-  prepare: function (algorithm) {
-    this.viewmodel.set({
-      attribution: algorithm.get('attribution'),
-      nodeIds: [algorithm.get('rootNodeId')],
-      title: algorithm.get('title')
-    });
   },
   render: function () {
     this.$el.html(this.template());
@@ -76,20 +52,17 @@ var Algorithm = B.View.extend({
 
     // this.$el.find('.aglmd-algorithm-nodes-frame').on('scroll', this.uiUpdateAnchor);
     this.$el.find('.aglmd-algorithm-nodes-frame').on('scroll', _.debounce(
-      this.uiUpdateAnchor,
-      50,
-      {leading: true}
+      this.uiUpdateAnchor, 50
     ));
 
     this.trigger('rendered');
   },
   renderAnchor: function (nodeIds) {
     var anchor = '';
-    var versionId = this.viewmodel.get('versionId');
+    var versionId = this.model.get('versionId');
 
-    var algorithm = this.collection.get(versionId);
     _.forEach(nodeIds, function (nodeId) {
-      var node = algorithm.getNode(nodeId);
+      var node = _.cloneDeep(this.model.get('nodes')[nodeId]);
 
       // shortcircuit if missing the target node
       if (!node) {
@@ -101,7 +74,7 @@ var Algorithm = B.View.extend({
       if (!node.responses || node.responses.length === 0) {
         anchor = 'END' + (anchor.length ? ': ' + anchor : '');
       }
-    });
+    }, this);
 
     this.$el.find('.aglmd-file-algorithm').toggleClass('aglmd-anchored', anchor.length);
     this.$el.find('.aglmd-algorithm-anchor').text(anchor);
@@ -113,8 +86,8 @@ var Algorithm = B.View.extend({
     var lastMatchIndex = -1;
     var nodeIdsCt = nodeIds.length;
 
-    var entityId = this.viewmodel.get('entityId');
-    var versionId = this.viewmodel.get('versionId');
+    var entityId = this.model.get('entityId');
+    var versionId = this.model.get('versionId');
 
     // first, trim nodes that are no longer needed
     _.forEach(nodeIds, function (nodeId, i) {
@@ -139,9 +112,8 @@ var Algorithm = B.View.extend({
     }
 
     // then, append any newly required nodes
-    var algorithm = this.collection.get(versionId);
     _.forEach(nodeIds, function (nodeId) {
-      var node = algorithm.getNode(nodeId);
+      var node = _.cloneDeep(this.model.get('nodes')[nodeId]);
 
       if (!node) {
         io.error('nodeId=' + nodeId + ' does not exist in algorithm fileId=' + entityId + '; halting node render');
@@ -196,7 +168,7 @@ var Algorithm = B.View.extend({
     $tgt.addClass('aglmd-active');
   
     var currentNodeId = $node.data('nid');
-    var nodeIds = this.viewmodel.get('nodeIds');
+    var nodeIds = this.model.get('nodeIds');
 
     nodeIds = nodeIds.slice(0, _.findLastIndex(nodeIds, function (nid) {
       return nid === currentNodeId;
@@ -204,18 +176,18 @@ var Algorithm = B.View.extend({
 
     nodeIds.push($tgt.data('nid'));
 
-    this.viewmodel.set('nodeIds', nodeIds);
+    this.model.set('nodeIds', nodeIds);
   },
   uiUpdateAnchor: function (e) {
     var $tgt = B.$(e.target);
-    var nodeIds = this.viewmodel.get('nodeIds').slice();
+    var nodeIds = this.model.get('nodeIds').slice();
 
     var scrollableWidth = Math.max(e.target.offsetWidth || 0, e.target.scrollWidth || 0);
     var visibleWidth = $tgt.width();
 
     // compute the most centered visible node
     var viewIndex = Math.round(
-      $tgt.scrollLeft() / (scrollableWidth - visibleWidth) * nodeIds.length
+      $tgt.scrollLeft() / (scrollableWidth - visibleWidth) * (nodeIds.length - 1)
     );
 
     this.renderAnchor(nodeIds.slice(0, viewIndex+1));
