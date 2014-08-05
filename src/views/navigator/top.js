@@ -26,40 +26,43 @@ var Top = B.View.extend({
 
     // listen for renderable changes
     this.viewmodel.on('change', function (vm) {
-      var changed = vm.changedAttributes();
-
-      // ignore transition resets
+      // ignore resets
       if (!vm.get('moduleId')) return;
 
-      if (changed && changed.folders) {
-        var module = this.collection.get(vm.get('moduleId'));
+      var changed = vm.changedAttributes();
+      var module = this.collection.get(vm.get('moduleId'));
 
-        // ignore transient changes to viewed module
-        if (!module) return;
+      // ignore transient changes & respect disabled state
+      if (!module) return;
 
+      var viewstate = {};
+      viewstate.topArt = module.get('art');
+
+      if (changed.folders && changed.folders.length) {
         if (changed.folders.length === 1) {
-          this.viewmodel.set({
-            topArt: module.get('art'),
-            topTitle: module.get('title'),
-            topSubtitle: module.get('subtitle')
-          }, {
-            silent: true
-          });
+          viewstate.topTitle = module.get('title');
+          viewstate.topSubtitle = module.get('subtitle');
         }
         else if (changed.folders.length > 1) {
           var folders = changed.folders.slice(0);
 
-          this.viewmodel.set({
-            topArt: module.get('art'),
-            topTitle: folders.pop().title,
-            topSubtitle: _.pluck(folders, 'title').join(' > ')
-          }, {
-            silent: true
-          });
+          viewstate.topTitle = folders.pop().title;
+          viewstate.topSubtitle = _.pluck(folders, 'title').join(' > ');
         }
       }
 
+      this.viewmodel.set(viewstate, {
+        silent: true
+      });
+
       this.render();
+    }, this);
+
+    // listen for renderable changes
+    this.viewmodel.on('change:isDisabled', function (vm, isDisabled) {
+      if (isDisabled) {
+        this.disable();
+      }
     }, this);
 
     vmFile.on('change:title', function (vm, title) {
@@ -72,7 +75,14 @@ var Top = B.View.extend({
       }
     }, this);
   },
+  disable: function () {
+    this.trigger('disabled');
+
+    this.$el.toggleClass('aglmd-hide', true);
+  },
   render: function () {
+    if (this.viewmodel.get('isDisabled')) return;
+
     var art = this.viewmodel.get('topArt');
     var folders = this.viewmodel.get('folders');
     var title = this.viewmodel.get('topTitle');

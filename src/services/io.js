@@ -83,7 +83,7 @@ function init () {
   };
 
   // if available, replay the most recent init command;
-  //     expose init as public api
+  // expose init as public api
   cmdInit = _.findLast(global.agilemd._q, function (cmd) {
     return cmd[0] === 'init';
   });
@@ -91,6 +91,13 @@ function init () {
   if (cmdInit) {
     var rawInit = (cmdInit[1] && cmdInit[1].length) ? cmdInit[1][0] : {};
 
+    // check for navigation config
+    if (rawInit.disableNavigation) {
+      vmNavigator.set('isDisabled', rawInit.disableNavigation);
+      delete rawInit.disableNavigation;
+    }
+
+    // check for open wihin config and proxy into open commands
     if (rawInit.file) {
       global.agilemd.open('file', rawInit.file);
       delete rawInit.file;

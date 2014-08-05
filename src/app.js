@@ -83,7 +83,12 @@ var App = B.View.extend({
 
     // setup persistant top navigation
     this.topnav = new TopNavigatorView();
+
     this.renderSubview(topnavEl, this.topnav);
+
+    this.topnav.on('disabled', function () {
+      this.removeNavigation();
+    }, this);
 
     // setup modal, a special-case peer-view
     this.modal = new ModalView();
@@ -117,6 +122,9 @@ var App = B.View.extend({
     if (!B.$(this.el).length) {
       io.abort(this.el + ' must exist in the live DOM before loading the widget');
     }
+  },
+  removeNavigation: function () {
+    this.$el.removeClass('aglmd-has-navigation');
   },
   render: function () {
     this.$el.append(this.template());

@@ -13,7 +13,7 @@ var uris = require('../services/uris');
 var Module = Model.extend({
   idAttribute: '_id',
   defaults: {
-    art: 'https://cdn.agilemd.com/assets/art/_default/hvpwt0fk.128.png',
+    art: '',
     description: '',
     folders: {},
     subtitle: '',
