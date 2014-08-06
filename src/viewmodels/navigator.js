@@ -5,20 +5,87 @@ var _ = require('lodash');
 var B = require('backdash');
 var ViewModel = require('./ViewModel');
 
+var io = require('../services/io');
+
 
 var ViewModel = ViewModel.extend({
+  collection: require('../collections/modules'),
   defaults: {
-    // persistant top navigator
+    // persistant state
     isDisabled: false,
-    topArt: null,
+    // viewed model
+    moduleId: null,
+    art: null,
+    folders: {},
+    subtitle: null,
+    title: null,
+    // top-nav properties
     topTitle: null,
     topSubtitle: null,
-    // folder browser
-    moduleId: null,
-    folders: []
+    // main-nav properties
+    path: []
   },
   initialize: function() {
-    _.bindAll(this);
+    // listen for state-control changes
+    this.on('change:moduleId', function (vm, moduleId) {
+      // load the default module for this integration
+      if (moduleId === -1) {
+        if (this.collection.length) {
+          this.loadDefault();
+          return;
+        }
+
+        this.collection.once('sync', function () {
+          this.loadDefault();
+        }, this);
+
+        this.collection.stub();
+      }
+      // load a specific module
+      else if (moduleId) {
+        var module = this.collection.get(moduleId);
+
+        // if the module is missing OR has not been hydrated, load it
+        if (!module || !module.get('folders')._rootId) {
+          module = this.collection.add({
+            _id: moduleId
+          });
+
+          module.on('sync', function (newModule) {
+            this.prepare(newModule);
+          }, this);
+
+          module.hydrate();
+          return;
+        }
+
+        this.prepare(module);
+      }
+    }, this);
+  },
+  loadDefault: function () {
+    var firstModule = this.collection.first();
+
+    if (!firstModule) {
+      io.alert('no default module could be found');
+      return;
+    }
+
+    this.set('moduleId', firstModule.id);
+  },
+  prepare: function (module) {
+    var folders = module.get('folders');
+
+    this.set({
+      // viewed model
+      moduleId: module.id,
+      art: module.get('art'),
+      folders: folders,
+      subtitle: module.get('title'),
+      title: module.get('title'),
+      // main-nav state
+      path: [folders[folders._rootId]]
+    });
   },
   transition: function (toState) {
     toState = toState || {};

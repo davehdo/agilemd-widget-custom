@@ -122,7 +122,7 @@ session.on('change:token', function (model) {
 });
 
 // outbound messages bound to view model changes
-vmNavigator.on('change:title', function (vm, title) {
+vmNavigator.on('change:moduleTitle', function (vm, title) {
   if (!title) return;
 
   stdout.trigger('openModule', {
