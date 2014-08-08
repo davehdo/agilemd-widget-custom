@@ -63,7 +63,7 @@ var ViewModel = ViewModel.extend({
         var msg = 'cannot get data for unknown file type fileId=';
         msg += vm.get('entityId') + ', versionId=' + vm.get('versionId');
 
-        io.warn(msg);
+        io.error(msg);
         return;
       }
 
