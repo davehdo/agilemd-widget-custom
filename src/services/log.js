@@ -1,7 +1,18 @@
 /* jslint node: true */
 'use strict';
 
-var webcore = require('webcore');
+var _ = require('lodash');
+var B = require('backdash');
+
+var algorithms = require('../collections/algorithms');
+var documents = require('../collections/documents');
+var env = require('./env');
+var modules = require('../collections/modules');
+var session = require('../models/session');
+var vmNavigator = require('../viewmodels/navigator');
+var vmFile = require('../viewmodels/file');
+var xhr = require('./xhr');
+
 var EVENTS = {
   ACTIVE: '472LmKyr',
   OPEN_FILE: 'eeXsp4DP',
@@ -9,51 +20,82 @@ var EVENTS = {
   OPEN_NODE: '5AGWYopX',
   XHR: '53PK1vZT'
 };
+var URI = 'https://utilsqa.agilemd.com/m';
 
-var _ = require('lodash');
-var B = require('backdash');
-var xhr = require('./xhr');
+var service = _.extend({}, B.Events);
+var emitterNoop = {trigger: function () {}};
 
-var algorithms = require('../collections/algorithms');
-var documents = require('../collections/documents');
-var flowcharts = require('../collections/documents');
-var modules = require('../collections/modules');
-var notes = require('../collections/documents');
-var pdfs = require('../collections/pdfs');
+var eventSchema = {};
+(function () {
+  var version = env('VERSION');
 
-var vmNavigator = require('../viewmodels/navigator');
-var vmFile = require('../viewmodels/index/file');
+  eventSchema.a = {
+    name: 'widget',
+    m: version.M,
+    n: version.m,
+    p: version.p,
+    '@': version.c
+  };
+
+  eventSchema.d = env('AGENT');
+})();
 
 
-function _log (name, data) {
-  var _parms = {};
+function _log (name, context) {
+  var data = _.extend({}, eventSchema);
 
-  _parms.name = name;
+  data.e = name;
 
-  if (data) {
-    _parms.data = data;
+  if (context) {
+    data.x = context;
   }
 
-  // temporary debug
-  console.log('[metric:' + name + ']', data);
+  service.trigger('req', data);
+
+  // record the log event; note that a noop emitter is used
+  // to avoid an infinite loops of xhr log events
+  xhr({
+    contentType: 'application/json; charset=utf-8',
+    beforeSend: session.inject,
+    data: JSON.stringify({log: [data]}),
+    dataType: 'json',
+    emitter: emitterNoop,
+    method: 'POST',
+    uri: URI
+  });
 }
 
+// proxy passed data into the generic log as an XHR event
 function _logXHR (data) {
   _log(EVENTS.XHR, data);
 }
 
-_log(EVENTS.ACTIVE);
+session.on('change:ownerId', function (model, ownerId) {
+  // ignore resets
+  if (!ownerId) return;
+
+  eventSchema.u = ownerId;
+
+  // web-widget does not attempt to detect signal stregth
+  _log(EVENTS.ACTIVE, {
+    connection: 'unknown'
+  });
+});
 
 vmNavigator.on('change:moduleId', function (model, mid) {
-  if (mid && mid !== -1) {
-    _log(EVENTS.OPEN_MODULE, {
-      moduleId: mid
-    });
-  }
+  // ignore resets
+  if (!mid || mid === -1) return;
+
+  _log(EVENTS.OPEN_MODULE, {
+    moduleId: mid
+  });
 });
 
 // open file events
-vmFile.on('change:versionId', function (model) {
+vmFile.on('change:title', function (model, title) {
+  // ignore resets
+  if (!title) return;
+
   var moduleId = vmNavigator.get('moduleId');
 
   var data = {
@@ -68,10 +110,11 @@ vmFile.on('change:versionId', function (model) {
   _log(EVENTS.OPEN_FILE, data);
 });
 
-// api request events
+// data events
 algorithms.on('xhr', _logXHR);
 documents.on('xhr', _logXHR);
-flowcharts.on('xhr', _logXHR);
 modules.on('xhr', _logXHR);
-pdfs.on('xhr', _logXHR);
 xhr.on('xhr', _logXHR);
+
+
+module.exports = service.on;

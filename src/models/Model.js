@@ -23,7 +23,6 @@ var Model = B.Model.extend({
 
       self.trigger('xhr', {
         lag: tsEnd - tsStart,
-        retries: self._xhrAttempts,
         status: xhr.status,
         uri: _.isFunction(self.url) ? self.url() : self.url
       });
@@ -48,8 +47,7 @@ var Model = B.Model.extend({
         }, 400 * Math.pow(self._xhrAttempts, 2));
       } else {
         self.trigger('xhr', {
-          latency: tsEnd - tsStart,
-          retries: self._xhrAttempts,
+          lag: tsEnd - tsStart,
           status: xhr.status,
           uri: _.isFunction(self.url) ? self.url() : self.url
         });

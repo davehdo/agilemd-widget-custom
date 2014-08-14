@@ -7,6 +7,7 @@ B.$ = require('./lib/zepto');
 
 var env = require('./services/env');
 var io = require('./services/io');
+var log = require('./services/log');
 
 var app;
 var appElId = 'agilemd';
@@ -30,24 +31,6 @@ var Subviews = [
 
 // temporary garbage scope
 (function() {
-  // initialize environment constants
-  // `USE_TAP` catches certain touch devices with 300ms click lag
-  var agent = navigator.userAgent;
-  env.set({
-    FILE_TYPES: ['algorithm', 'document', 'flowchart', 'pdf'],
-    IS_PROD: !global.agilemd.DEBUG,
-    IS_RETINA: (global.devicePixelRatio > 1),
-    USE_TAP: ('ontouchstart' in window) && (
-      /iPhone|iPad|iPod/i.test(agent) ||
-      /Android/i.test(agent)
-    ),
-    VERSION: {
-      M: process.env.AGLMD_APP_MAJOR,
-      m: process.env.AGLMD_APP_MINOR,
-      p: process.env.AGLMD_APP_PATCH
-    }
-  });
-
   // load the stylesheet and apply temporary styles (respecting any set defaults)
   var elAgileMD = document.getElementById(appElId);
   if (elAgileMD) {

@@ -5,6 +5,7 @@
 var argparse = require('argparse');
 var envify = require('envify/custom');
 var fs = require('fs');
+var git = require('git-rev');
 var path = require('path');
 var pjson = require('./package.json');
 var blissify = require('blissify');
@@ -12,7 +13,7 @@ var browserify = require('browserify');
 var uglifyify = require('uglifyify');
 var watchify = require('watchify');
 
-
+var commit = 'xxxxxxxx';
 var version = pjson.version.split('.');
 
 // setup arg parsing
@@ -86,18 +87,24 @@ if (_watch) {
   });
 }
 
-bundler.add('./src/app.js');
-bundler.transform(blissify);
-bundler.transform(envify({
-  AGLMD_APP_MAJOR: version[0],
-  AGLMD_APP_MINOR: version[1],
-  AGLMD_APP_PATCH: version[2]
-}));
+// if >1 callback is needed, switch to promises
+git.long(function (str) {
+  commit = str.substring(0, 8);
 
-if (!_watch) {
-  bundler.transform({
-    global: true
-  }, 'uglifyify');
-}
+  bundler.add('./src/app.js');
+  bundler.transform(blissify);
+  bundler.transform(envify({
+    AGLMD_APP_MAJOR: version[0],
+    AGLMD_APP_MINOR: version[1],
+    AGLMD_APP_PATCH: version[2],
+    AGLMD_APP_COMMIT: commit
+  }));
 
-_build();
+  if (!_watch) {
+    bundler.transform({
+      global: true
+    }, 'uglifyify');
+  }
+
+  _build();
+});

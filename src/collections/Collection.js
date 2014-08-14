@@ -20,8 +20,7 @@ var Collection = B.Collection.extend({
       var tsEnd = +new Date();
 
       self.trigger('xhr', {
-        latency: tsEnd - tsStart,
-        retries: self._xhrAttempts,
+        lag: tsEnd - tsStart,
         status: xhr.status,
         uri: _.isFunction(self.url) ? self.url() : self.url
       });
@@ -47,7 +46,6 @@ var Collection = B.Collection.extend({
       } else {
         self.trigger('xhr', {
           lag: tsEnd - tsStart,
-          retries: self._xhrAttempts,
           status: xhr.status,
           uri: _.isFunction(self.url) ? self.url() : self.url
         });
