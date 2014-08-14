@@ -52,15 +52,13 @@ var Session = Model.extend({
     });
   },
   inject: function (xhr, settings) {
-    var token = this.get('token');
-    // var token = this.get('token') + ':';
+    var token = this.get('token') + ':';
 
     if (!token || token.length === 1) {
       io.crit('missing token; request may fail if authentication is required');
     }
 
-    settings.url += (settings.url.indexOf('?') === -1 ? '?t=' : '&t=') + token;
-    // xhr.setRequestHeader('Authorization', ('Basic ' + btoa(token)));
+    xhr.setRequestHeader('Authorization', ('Basic ' + btoa(token)));
   }
 });
 
