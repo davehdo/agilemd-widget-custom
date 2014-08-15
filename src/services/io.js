@@ -143,14 +143,16 @@ vmNavigator.on('change', function (vm) {
   }
 });
 
-vmFile.on('change:title', function (vm, title) {
-  if (!title) return;
-  
-  stdout.trigger('openFile', {
-    fileId: vm.get('entityId'),
-    fileTitle: title,
-    fileType: vm.get('type')
-  });
+vmFile.on('change', function (vm) {
+  var changed = vm.changedAttributes();
+
+  if (changed.title) {
+    stdout.trigger('openFile', {
+      fileId: vm.get('entityId'),
+      fileTitle: changed.title,
+      fileType: vm.get('type')
+    });
+  }
 });
 
 
