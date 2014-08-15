@@ -122,28 +122,25 @@ session.on('change:token', function (model) {
 });
 
 // outbound messages bound to view model changes
-vmNavigator.on('change:title', function (vm, title) {
-  if (!title) return;
+vmNavigator.on('change', function (vm) {
+  var changed = vm.changedAttributes();
 
-  stdout.trigger('openModule', {
-    moduleId: vm.get('moduleId'),
-    moduleTitle: title
-  });
-});
+  if (changed.path && changed.path.length) {
+    var currentFolder = changed.path[changed.path.length - 1];
 
-// outbound messages bound to view model changes
-vmNavigator.on('change:path', function (vm, path) {
-  if (!path || path.length === 0) return;
+    stdout.trigger('openFolder', {
+      moduleId: vm.get('moduleId'),
+      folderId: currentFolder._id,
+      folderTitle: currentFolder.title
+    });
+  }
 
-  path = path.slice(0);
-
-  var currentFolder = path.pop();
-
-  stdout.trigger('openFolder', {
-    moduleId: vm.get('moduleId'),
-    folderId: currentFolder._id,
-    folderTitle: currentFolder.title
-  });
+  if (changed.title) {
+    stdout.trigger('openModule', {
+      moduleId: vm.get('moduleId'),
+      moduleTitle: changed.title
+    });
+  }
 });
 
 vmFile.on('change:title', function (vm, title) {

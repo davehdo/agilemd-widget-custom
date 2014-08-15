@@ -90,8 +90,8 @@ var ViewModel = ViewModel.extend({
   transition: function (toState) {
     toState = toState || {};
 
-    // the isDisabled property must be explicitly set; lazy transitioning
-    // is not allowed
+    // the isDisabled property must be explicitly set;
+    // lazy transitioning is not allowed
     toState.isDisabled = this.get('isDisabled');
     toState = _.extend(_.clone(this.defaults), toState);
 
