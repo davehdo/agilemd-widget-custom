@@ -20,7 +20,7 @@ var EVENTS = {
   OPEN_NODE: '5AGWYopX',
   XHR: '53PK1vZT'
 };
-var URI = 'https://utilsqa.agilemd.com/m';
+var URI = 'https://utils.agilemd.com/m';
 
 var service = _.extend({}, B.Events);
 var emitterNoop = {trigger: function () {}};
@@ -40,30 +40,31 @@ var eventSchema = {};
   eventSchema.d = env('AGENT');
 })();
 
+var _log = global.agilemd.DEBUG ?
+  function () {} :
+  function (name, context) {
+    var data = _.extend({}, eventSchema);
 
-function _log (name, context) {
-  var data = _.extend({}, eventSchema);
+    data.e = name;
 
-  data.e = name;
+    if (context) {
+      data.x = context;
+    }
 
-  if (context) {
-    data.x = context;
-  }
+    // record the log event; a noop emitter is used to avoid
+    // an infinite loop of xhr log events
+    service.trigger('req', data);
 
-  service.trigger('req', data);
-
-  // record the log event; note that a noop emitter is used
-  // to avoid an infinite loops of xhr log events
-  xhr({
-    contentType: 'application/json; charset=utf-8',
-    beforeSend: session.inject,
-    data: JSON.stringify({log: [data]}),
-    dataType: 'json',
-    emitter: emitterNoop,
-    method: 'POST',
-    uri: URI
-  });
-}
+    xhr({
+      contentType: 'application/json; charset=utf-8',
+      beforeSend: session.inject,
+      data: JSON.stringify({log: [data]}),
+      dataType: 'json',
+      emitter: emitterNoop,
+      method: 'POST',
+      uri: URI
+    });
+  };
 
 // proxy passed data into the generic log as an XHR event
 function _logXHR (data) {
