@@ -20,11 +20,10 @@ var EVENTS = {
   OPEN_NODE: '5AGWYopX',
   XHR: '53PK1vZT'
 };
-var URI = 'https://utils.agilemd.com/m';
+var URI = 'https://utilsqa.agilemd.com/m';
 
 var service = _.extend({}, B.Events);
 var emitterNoop = {trigger: function () {}};
-
 var eventSchema = {};
 (function () {
   var version = env('VERSION');
@@ -40,7 +39,7 @@ var eventSchema = {};
   eventSchema.d = env('AGENT');
 })();
 
-var _log = global.agilemd.DEBUG ?
+var _log = !global.agilemd.DEBUG ?
   function () {} :
   function (name, context) {
     var data = _.extend({}, eventSchema);
@@ -53,8 +52,6 @@ var _log = global.agilemd.DEBUG ?
 
     // record the log event; a noop emitter is used to avoid
     // an infinite loop of xhr log events
-    service.trigger('req', data);
-
     xhr({
       contentType: 'application/json; charset=utf-8',
       beforeSend: session.inject,
@@ -64,12 +61,15 @@ var _log = global.agilemd.DEBUG ?
       method: 'POST',
       uri: URI
     });
+
+    service.trigger('req', data);
   };
 
 // proxy passed data into the generic log as an XHR event
 function _logXHR (data) {
   _log(EVENTS.XHR, data);
 }
+
 
 session.on('change:ownerId', function (model, ownerId) {
   // ignore resets
