@@ -15,9 +15,9 @@ var xhr = require('./xhr');
 
 var EVENTS = {
   ACTIVE: '472LmKyr',
-  OPEN_FILE: 'eeXsp4DP',
-  OPEN_MODULE: '46MuLEeG',
-  OPEN_NODE: '5AGWYopX',
+  FILE: 'eeXsp4DP',
+  MODULE: '46MuLEeG',
+  NODE: '5AGWYopX',
   XHR: '53PK1vZT'
 };
 var URI = 'https://utils.agilemd.com/m';
@@ -87,7 +87,7 @@ vmNavigator.on('change:moduleId', function (vm, mid) {
   // ignore resets
   if (!mid || mid === -1) return;
 
-  _log(EVENTS.OPEN_MODULE, {
+  _log(EVENTS.MODULE, {
     moduleId: mid
   });
 });
@@ -108,7 +108,7 @@ vmFile.on('change:title', function (vm, title) {
     data.moduleId = moduleId;
   }
 
-  _log(EVENTS.OPEN_FILE, data);
+  _log(EVENTS.FILE, data);
 });
 
 // open node events
@@ -117,7 +117,7 @@ vmFile.on('change:nodeIds', function (vm, nodeIds) {
 
   nodeIds = nodeIds.slice(0);
 
-  _log(EVENTS.OPEN_NODE, {
+  _log(EVENTS.NODE, {
     entityId: vm.get('entityId'),
     versionId: vm.get('versionId'),
     nodeId: nodeIds[nodeIds.length - 1],
