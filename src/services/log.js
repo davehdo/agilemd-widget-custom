@@ -83,7 +83,7 @@ session.on('change:ownerId', function (model, ownerId) {
   });
 });
 
-vmNavigator.on('change:moduleId', function (model, mid) {
+vmNavigator.on('change:moduleId', function (vm, mid) {
   // ignore resets
   if (!mid || mid === -1) return;
 
@@ -93,15 +93,15 @@ vmNavigator.on('change:moduleId', function (model, mid) {
 });
 
 // open file events
-vmFile.on('change:title', function (model, title) {
+vmFile.on('change:title', function (vm, title) {
   // ignore resets
   if (!title) return;
 
   var moduleId = vmNavigator.get('moduleId');
 
   var data = {
-    entityId: model.get('entityId'),
-    versionId: model.get('versionId')
+    entityId: vm.get('entityId'),
+    versionId: vm.get('versionId')
   };
 
   if (moduleId) {
@@ -109,6 +109,20 @@ vmFile.on('change:title', function (model, title) {
   }
 
   _log(EVENTS.OPEN_FILE, data);
+});
+
+// open node events
+vmFile.on('change:nodeIds', function (vm, nodeIds) {
+  if (!nodeIds || nodeIds.length === 0) return;
+
+  nodeIds = nodeIds.slice(0);
+
+  _log(EVENTS.OPEN_NODE, {
+    entityId: vm.get('entityId'),
+    versionId: vm.get('versionId'),
+    nodeId: nodeIds[nodeIds.length - 1],
+    path: nodeIds
+  });
 });
 
 // data events
