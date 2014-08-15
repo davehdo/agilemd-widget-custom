@@ -153,6 +153,16 @@ vmFile.on('change', function (vm) {
       fileType: vm.get('type')
     });
   }
+
+  if (changed.nodeIds) {
+    var nodeIds = changed.nodeIds.slice(0);
+
+    stdout.trigger('openNode', {
+      fileId: vm.get('entityId'),
+      nodeId: nodeIds.pop(),
+      nodeIdHistory: nodeIds
+    });
+  }
 });
 
 
