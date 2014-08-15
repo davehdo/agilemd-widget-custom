@@ -122,12 +122,27 @@ session.on('change:token', function (model) {
 });
 
 // outbound messages bound to view model changes
-vmNavigator.on('change:moduleTitle', function (vm, title) {
+vmNavigator.on('change:title', function (vm, title) {
   if (!title) return;
 
   stdout.trigger('openModule', {
     moduleId: vm.get('moduleId'),
     moduleTitle: title
+  });
+});
+
+// outbound messages bound to view model changes
+vmNavigator.on('change:path', function (vm, path) {
+  if (!path || path.length === 0) return;
+
+  path = path.slice(0);
+
+  var currentFolder = path.pop();
+
+  stdout.trigger('openFolder', {
+    moduleId: vm.get('moduleId'),
+    folderId: currentFolder._id,
+    folderTitle: currentFolder.title
   });
 });
 

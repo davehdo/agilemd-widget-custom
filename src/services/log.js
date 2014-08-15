@@ -20,7 +20,7 @@ var EVENTS = {
   OPEN_NODE: '5AGWYopX',
   XHR: '53PK1vZT'
 };
-var URI = 'https://utilsqa.agilemd.com/m';
+var URI = 'https://utils.agilemd.com/m';
 
 var service = _.extend({}, B.Events);
 var emitterNoop = {trigger: function () {}};
@@ -39,7 +39,7 @@ var eventSchema = {};
   eventSchema.d = env('AGENT');
 })();
 
-var _log = !global.agilemd.DEBUG ?
+var _log = global.agilemd.DEBUG ?
   function () {} :
   function (name, context) {
     var data = _.extend({}, eventSchema);
