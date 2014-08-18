@@ -1,7 +1,7 @@
 /* jslint node: true */
 'use strict';
 
-var HOST = 'https://apiqa.agilemd.com';
+var HOST = 'https://api.agilemd.com';
 var RENDERER = 'widget';
 
 
