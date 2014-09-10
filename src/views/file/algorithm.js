@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
@@ -59,14 +58,14 @@ var Algorithm = B.View.extend({
   },
   renderAnchor: function (nodeIds) {
     var anchor = '';
-    var versionId = this.model.get('versionId');
 
     _.forEach(nodeIds, function (nodeId) {
       var node = _.cloneDeep(this.model.get('nodes')[nodeId]);
 
       // shortcircuit if missing the target node
       if (!node) {
-        io.error('nodeId=' + nodeId + ' listed in algorithm history but could not be found');
+        io.error('nodeId=' + nodeId +
+          ' listed in algorithm history but could not be found');
         return;
       }
 
@@ -87,7 +86,6 @@ var Algorithm = B.View.extend({
     var nodeIdsCt = nodeIds.length;
 
     var entityId = this.model.get('entityId');
-    var versionId = this.model.get('versionId');
 
     // first, trim nodes that are no longer needed
     _.forEach(nodeIds, function (nodeId, i) {
@@ -116,7 +114,9 @@ var Algorithm = B.View.extend({
       var node = _.cloneDeep(this.model.get('nodes')[nodeId]);
 
       if (!node) {
-        io.error('nodeId=' + nodeId + ' does not exist in algorithm fileId=' + entityId + '; halting node render');
+        io.error('nodeId=' + nodeId +
+          ' does not exist in algorithm fileId=' + entityId +
+          '; halting node render');
         return;
       }
 
@@ -166,7 +166,7 @@ var Algorithm = B.View.extend({
 
     $tgt.siblings().removeClass('aglmd-active');
     $tgt.addClass('aglmd-active');
-  
+
     var currentNodeId = $node.data('nid');
     var nodeIds = this.model.get('nodeIds');
 

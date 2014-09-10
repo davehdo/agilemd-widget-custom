@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var ERRORS = {
@@ -12,7 +11,6 @@ var ERRORS = {
 var _ = require('lodash');
 var B = require('backdash');
 
-var env = require('./env');
 var vmFile = require('../viewmodels/file');
 var vmNavigator = require('../viewmodels/navigator');
 var session = require('../models/session');
@@ -39,7 +37,7 @@ function init () {
   var cmdOpen;
 
   // once auth received, play last recorded open event
-  session.on('change:token', function (model) {
+  session.on('change:token', function () {
     global.agilemd.open = function (type, id) {
       if (type === 'module') {
         vmNavigator.transition({

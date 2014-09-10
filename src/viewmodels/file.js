@@ -1,8 +1,6 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
-var B = require('backdash');
 var ViewModel = require('./ViewModel');
 
 var io = require('../services/io');
@@ -46,7 +44,9 @@ var ViewModel = ViewModel.extend({
 
     this.on('change:versionId', function (vm, versionId) {
       // ignore transitions
-      if (!versionId) return;
+      if (!versionId)  {
+        return;
+      }
 
       var collection;
       var prepare;

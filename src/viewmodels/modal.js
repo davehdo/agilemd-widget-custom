@@ -1,8 +1,6 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
-var B = require('backdash');
 var ViewModel = require('./ViewModel');
 
 

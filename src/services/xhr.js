@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
@@ -7,7 +6,7 @@ var B = require('backdash');
 var service = _.extend({}, B.Events);
 
 
-// abstract away bad jQuery naming
+// abstract away questionable jQuery parameter names
 service.xhr = function (parms) {
   var _complete;
   var _emitter = parms.emitter || service;
@@ -33,7 +32,7 @@ service.xhr = function (parms) {
     delete req.uri;
   }
 
-  req.complete = function (_xhr, _statusText) {
+  req.complete = function (_xhr) {
     var _tsEnd = +new Date();
 
     _emitter.trigger('xhr', {

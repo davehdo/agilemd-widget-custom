@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
@@ -73,7 +72,9 @@ function _logXHR (data) {
 
 session.on('change:ownerId', function (model, ownerId) {
   // ignore resets
-  if (!ownerId) return;
+  if (!ownerId) {
+    return;
+  }
 
   eventSchema.u = ownerId;
 
@@ -85,7 +86,9 @@ session.on('change:ownerId', function (model, ownerId) {
 
 vmNavigator.on('change:moduleId', function (vm, mid) {
   // ignore resets
-  if (!mid || mid === -1) return;
+  if (!mid || mid === -1) {
+    return;
+  }
 
   _log(EVENTS.MODULE, {
     moduleId: mid
@@ -95,7 +98,9 @@ vmNavigator.on('change:moduleId', function (vm, mid) {
 // open file events
 vmFile.on('change:title', function (vm, title) {
   // ignore resets
-  if (!title) return;
+  if (!title) {
+    return;
+  }
 
   var moduleId = vmNavigator.get('moduleId');
 
@@ -113,7 +118,9 @@ vmFile.on('change:title', function (vm, title) {
 
 // open node events
 vmFile.on('change:nodeIds', function (vm, nodeIds) {
-  if (!nodeIds || nodeIds.length === 0) return;
+  if (!nodeIds || nodeIds.length === 0) {
+    return;
+  }
 
   nodeIds = nodeIds.slice(0);
 

@@ -1,8 +1,6 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
-var B = require('backdash');
 
 var io = require('../services/io');
 var Model = require('./Model');
@@ -28,7 +26,7 @@ var Module = Model.extend({
 
     this.fetch({
       beforeSend: session.inject,
-      error: function (req, status, err) {
+      error: function () {
         io.crit('failed to retrieve module with moduleId=' + this.id);
       }
     });

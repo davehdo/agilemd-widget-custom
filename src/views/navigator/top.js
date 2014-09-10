@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
@@ -70,7 +69,9 @@ var Top = B.View.extend({
     this.$el.toggleClass('aglmd-hide', true);
   },
   render: function () {
-    if (this.model.get('isDisabled')) return;
+    if (this.model.get('isDisabled')) {
+      return;
+    }
 
     var art = this.model.get('art');
     var path = this.model.get('path');
@@ -98,7 +99,7 @@ var Top = B.View.extend({
 
     this.$el.html(this.template(useBack, art, title, subtitle));
   },
-  uiBack: function (e) {
+  uiBack: function () {
     var path = this.model.get('path').slice();
     var currentFolder = path[path.length-1];
     var activeEntityId = vmFile.get('entityId');
@@ -115,7 +116,7 @@ var Top = B.View.extend({
     this.model.unset('path', {silent: true});
     this.model.set('path', path);
   },
-  uiToModule: function (e) {
+  uiToModule: function () {
     this.model.transition({
       moduleId: this.model.get('moduleId')
     });

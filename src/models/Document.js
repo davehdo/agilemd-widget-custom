@@ -1,7 +1,4 @@
-/* jslint node: true */
 'use strict';
-
-var _ = require('lodash');
 
 var io = require('../services/io');
 var Model = require('./Model');
@@ -30,7 +27,7 @@ var Document = Model.extend({
 
     this.fetch({
       beforeSend: session.inject,
-      error: function (req, status, err) {
+      error: function () {
         io.crit('failed to retrieve document with fileId=' + entityId);
       }
     });

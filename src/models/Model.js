@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
@@ -10,7 +9,9 @@ var Model = B.Model.extend({
   _xhrRetries: 5,
   _xhrTimer: 0,
   sync: function (method, model, options) {
-    if (method === 'patch') options.type = 'PUT';
+    if (method === 'patch') {
+      options.type = 'PUT';
+    }
 
     var self = this;
     var fnError = options.error;

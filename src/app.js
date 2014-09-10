@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
@@ -38,7 +37,12 @@ var Subviews = [
   }
 
   var stylesheet = document.createElement('link');
-  stylesheet.href = global.agilemd.DEBUG ? '/css/app.css' : 'https://cdn.agilemd.com/widget/' + env('VERSION.M') + '/' + env('VERSION.m') + '/' + env('VERSION.p') + '/app.css';
+  stylesheet.href = global.agilemd.DEBUG ?
+    '/css/app.css' :
+    'https://cdn.agilemd.com/widget/' +
+      env('VERSION.M') + '/' +
+      env('VERSION.m') + '/' +
+      env('VERSION.p') + '/app.css';
   stylesheet.rel = 'stylesheet';
   stylesheet.type = 'text/css';
   document.getElementsByTagName('head')[0].appendChild(stylesheet);
@@ -135,7 +139,8 @@ var App = B.View.extend({
   setScroll: function () {
     var height = this.$el.height();
     if (!height) {
-      io.warn(appElId + ' does not have an explicit height; the document scroll position will receive updates');
+      io.warn(appElId + ' does not have an explicit height;' +
+        ' the document scroll position will receive updates');
       this.scrollTop = B.$('body').scrollTop();
     }
 

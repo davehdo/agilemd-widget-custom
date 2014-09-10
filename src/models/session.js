@@ -1,9 +1,7 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
 
-var env = require('../services/env');
 var io = require('../services/io');
 var Model = require('./Model');
 var session = require('../models/session');
@@ -46,12 +44,12 @@ var Session = Model.extend({
       success: function (data) {
         this.set(data);
       },
-      error: function (req, status, err) {
+      error: function () {
         io.alert('unable to generate session; no network or bad token');
       }
     });
   },
-  inject: function (xhr, settings) {
+  inject: function (xhr) {
     var token = this.get('token') + ':';
 
     if (!token || token.length === 1) {

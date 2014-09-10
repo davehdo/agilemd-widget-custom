@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
@@ -48,7 +47,7 @@ var Modal = B.View.extend({
 
     return this;
   },
-  uiClose: function (e) {
+  uiClose: function () {
     this.trigger('unrender');
   }
 });

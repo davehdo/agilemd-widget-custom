@@ -1,11 +1,9 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
 var B = require('backdash');
 
 var env = require('../../services/env');
-var io = require('../../services/io');
 var vmFile = require('../../viewmodels/file');
 
 

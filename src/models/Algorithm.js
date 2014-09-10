@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var _ = require('lodash');
@@ -28,7 +27,7 @@ var Algorithm = Model.extend({
 
     this.fetch({
       beforeSend: session.inject,
-      error: function (req, status, err) {
+      error: function () {
         io.crit('failed to retrieve algorithm with fileId=' + entityId);
       }
     });

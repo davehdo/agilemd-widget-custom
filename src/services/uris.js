@@ -1,4 +1,3 @@
-/* jslint node: true */
 'use strict';
 
 var HOST = 'https://api.agilemd.com';
@@ -47,7 +46,7 @@ var _uris = {
     renderer: '1.0'
   },
   tokens: {
-    uri: function (context) {
+    uri: function () {
       return '/v3/tokens';
     }
   }
