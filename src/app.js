@@ -7,7 +7,6 @@ B.$ = require('./lib/zepto');
 
 var env = require('./services/env');
 var io = require('./services/io');
-var log = require('./services/log');
 
 var app;
 var appElId = 'agilemd';
