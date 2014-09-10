@@ -11,7 +11,7 @@ var documents = require('../collections/documents');
 
 
 // type is used by different file viewers
-var ViewModel = ViewModel.extend({
+var File = ViewModel.extend({
   defaults: {
     title: null,
     type: null,
@@ -110,4 +110,4 @@ var ViewModel = ViewModel.extend({
 });
 
 
-module.exports = new ViewModel();
+module.exports = new File();

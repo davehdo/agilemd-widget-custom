@@ -6,7 +6,7 @@ var ViewModel = require('./ViewModel');
 var io = require('../services/io');
 
 
-var ViewModel = ViewModel.extend({
+var Navigator = ViewModel.extend({
   collection: require('../collections/modules'),
   defaults: {
     // persistant state
@@ -98,4 +98,4 @@ var ViewModel = ViewModel.extend({
 });
 
 
-module.exports = new ViewModel();
+module.exports = new Navigator();

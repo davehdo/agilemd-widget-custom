@@ -4,7 +4,7 @@ var _ = require('lodash');
 var ViewModel = require('./ViewModel');
 
 
-var ViewModel = ViewModel.extend({
+var Modal = ViewModel.extend({
   defaults: {
     title: null,
     content: null
@@ -15,4 +15,4 @@ var ViewModel = ViewModel.extend({
 });
 
 
-module.exports = new ViewModel();
+module.exports = new Modal();
