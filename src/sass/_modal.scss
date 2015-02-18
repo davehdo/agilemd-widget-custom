@@ -42,6 +42,8 @@
         }
 
         .aglmd-modal-title {
+          @include nowrap();
+
           display: block;
           height: $gutter-double;
           line-height: $gutter-double;

@@ -68,8 +68,8 @@ var Folder = B.View.extend({
 
     vmFile.transition({
       type: type,
-      entityId: $item.attr('data-eid'),
-      versionId: $item.attr('data-vid')
+      fileId: $item.attr('data-fid'),
+      moduleId: $item.attr('data-mid')
     });
   }
 });

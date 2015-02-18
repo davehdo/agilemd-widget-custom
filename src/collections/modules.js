@@ -13,12 +13,13 @@ var Modules = Collection.extend({
   initialize: function () {
     _.bindAll(this);
   },
-  stub: function () {
+  hydrate: function () {
     this.url = uris('modules', {
       clientId: session.get('clientId')
     });
 
     this.reset();
+
     this.fetch({
       beforeSend: session.inject,
       error: function () {

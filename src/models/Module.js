@@ -9,60 +9,70 @@ var uris = require('../services/uris');
 
 
 var Module = Model.extend({
-  idAttribute: '_id',
+  idAttribute: 'moduleId',
   defaults: {
     art: '',
     description: '',
+    files: {},
     folders: {},
     subtitle: '',
-    title: '',
-    versions: {}
+    title: ''
   },
   initialize: function() {
     _.bindAll(this);
   },
   hydrate: function () {
-    this.url = uris('module', {moduleId: this.id});
+    var moduleId = this.id;
+
+    this.url = uris('module', {moduleId: moduleId});
 
     this.fetch({
       beforeSend: session.inject,
       error: function () {
-        io.crit('failed to retrieve module with moduleId=' + this.id);
+        io.crit('failed to retrieve module with moduleId=' + moduleId);
       }
     });
   },
   parse: function (raw) {
-    var parsed = (raw.module) ? raw.module : raw;
+    raw = raw.module ? raw.module : raw;
 
-    if (parsed.folders) {
-      // sugar
-      var folders = parsed.folders;
-      var versions = parsed.versions;
+    var parsed = {};
 
-      // parse folder items into renderable iterable
-      _.each(folders, function (folder, folderId) {
-        if (folderId !== '_rootId') {
-          folder._id = folderId;
+    parsed.art = raw.meta.art['128'];
+    parsed.description = raw.meta.description;
+    parsed.moduleId = raw.moduleId;
+    parsed.subtitle = raw.meta.subtitle;
+    parsed.title = raw.meta.title;
 
-          folder.items = _.map(folder.items, function (item) {
+    parsed.folders = raw.data.folders;
+    parsed.files = _.reduce(raw.data.files, function (out, f) {
+      out[f.fileId] = f;
+      return out;
+    }, {});
 
-            if (item.itemType === 'folder') {
-              item.title = folders[item.itemId].title;
-              item.folderId = item.itemId;
-              item.fileCount = folders[item.itemId].fileCount;
-            }
-            else {
-              item.title = versions[item.itemId].title;
-              item.versionId = item.itemId;
-              item.entityId = versions[item.itemId].entityId;
-            }
+    // parse folder items into renderable iterable
+    _.each(parsed.folders, function (folder, folderId) {
+      if (folderId !== '_rootId') {
+        folder._id = folderId;
 
-            delete item.itemId;
-            return item;
-          });
-        }
-      });
-    }
+        parsed.folders[folderId].items = _.map(folder.items, function (item) {
+          if (item.itemType === 'folder') {
+            item.title = parsed.folders[item.itemId].title;
+            item.folderId = item.itemId;
+            item.fileCount = parsed.folders[item.itemId].fileCount;
+          }
+          else {
+            item.title = parsed.files[item.itemId].meta.title;
+            item.fileId = item.itemId;
+            item.moduleId = parsed.moduleId;
+          }
+
+          delete item.itemId;
+
+          return item;
+        });
+      }
+    });
 
     return parsed;
   }

@@ -176,7 +176,7 @@
 
         .aglmd-section {
           display: none;
-          padding: 1.5*$gutter-half/2 1.5*$gutter-half 1.5*$gutter-half 1.5*$gutter-half;
+          padding: 0 1.5*$gutter-half;
 
           &.aglmd-active {
             display: block;

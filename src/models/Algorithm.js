@@ -9,39 +9,44 @@ var uris = require('../services/uris');
 
 
 var Algorithm = Model.extend({
-  idAttribute: '_id',
+  idAttribute: 'fileId',
   defaults: {
-    _entityId: null,
+    fileId: null,
     attribution: null,
     nodes: {},
     rootNodeId: null,
     title: null
   },
-  hydrate: function () {
-    var entityId = this.get('_entityId');
-
+  hydrate: function (fileId, moduleId) {
     this.url = uris('fileAlgorithm', {
-      entityId: entityId,
-      versionId: this.id
+      fileId: fileId,
+      moduleId: moduleId
     });
 
     this.fetch({
       beforeSend: session.inject,
       error: function () {
-        io.crit('failed to retrieve algorithm with fileId=' + entityId);
+        io.crit('failed to retrieve algorithm with fileId=' + fileId);
       }
     });
   },
   parse: function (raw) {
-    var parsed = raw.version;
+    raw = raw.file ? raw.file : raw;
 
-    parsed.rootNodeId = parsed.nodes._rootId;
-    delete parsed.nodes._rootId;
+    var parsed = {};
 
-    // add an internal property for the keyed node id
-    _.forEach(parsed.nodes, function (node, nodeId) {
-      node._id = nodeId;
-    });
+    parsed.fileId = raw.fileId;
+
+    parsed.attribution = raw.meta.attribution;
+    parsed.title = raw.meta.title;
+
+    parsed.rootNodeId = raw.data.rootNodeId;
+    parsed.nodes = _.reduce(raw.data.nodes, function (out, node, nodeId) {
+      out[nodeId] = node;
+      out[nodeId]._id = nodeId;
+
+      return out;
+    }, {});
 
     return parsed;
   }

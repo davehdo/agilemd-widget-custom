@@ -37,7 +37,7 @@ var Navigator = ViewModel.extend({
           this.loadDefault();
         }, this);
 
-        this.collection.stub();
+        this.collection.hydrate();
       }
       // load a specific module
       else if (moduleId) {
@@ -62,14 +62,14 @@ var Navigator = ViewModel.extend({
     }, this);
   },
   loadDefault: function () {
-    var firstModule = this.collection.first();
+    var module = this.collection.last();
 
-    if (!firstModule) {
+    if (!module) {
       io.alert('no default module could be found');
       return;
     }
 
-    this.set('moduleId', firstModule.id);
+    this.set('moduleId', module.id);
   },
   prepare: function (module) {
     var folders = module.get('folders');

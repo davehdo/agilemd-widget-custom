@@ -38,6 +38,7 @@ var Document = B.View.extend({
     var textLang = this.model.get('textLang');
 
     this.$el.html(this.template(content, textDir, textLang));
+    this.$el.find('.aglmd-section').first().toggleClass('aglmd-active', true);
 
     this.trigger('rendered');
   },

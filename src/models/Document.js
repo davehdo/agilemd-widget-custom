@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('lodash');
+var B = require('backdash');
 var io = require('../services/io');
 var Model = require('./Model');
 var session = require('../models/session');
@@ -7,9 +9,9 @@ var uris = require('../services/uris');
 
 
 var Document = Model.extend({
-  idAttribute: '_id',
+  idAttribute: 'fileId',
   defaults: {
-    _entityId: null,
+    fileId: null,
     attribution: null,
     content: '',
     infoTexts: {},
@@ -17,23 +19,64 @@ var Document = Model.extend({
     textDir: 'ltr',
     textLang: 'en'
   },
-  hydrate: function () {
-    var entityId = this.get('_entityId');
-
+  hydrate: function (fileId, moduleId) {
     this.url = uris('fileDocument', {
-      entityId: entityId,
-      versionId: this.id
+      fileId: fileId,
+      moduleId: moduleId
     });
 
     this.fetch({
       beforeSend: session.inject,
       error: function () {
-        io.crit('failed to retrieve document with fileId=' + entityId);
+        io.crit('failed to retrieve document with fileId=' + fileId);
       }
     });
   },
   parse: function (raw) {
-    var parsed = raw.version;
+    raw = raw.file ? raw.file : raw;
+
+    var parsed = {};
+
+    parsed.fileId = raw.fileId;
+
+    parsed.attribution = raw.meta.attribution;
+    parsed.title = raw.meta.title;
+
+    parsed.infoTexts = {};
+    parsed.textDir = raw.meta.textDirection;
+    parsed.textLang = raw.meta.textLanguage;
+
+    var $html = B.$('<div>');
+
+    _.each(raw.data.sections, function (section, i) {
+      var $content = B.$('<div>');
+      $content.html(section.content);
+
+      $content.find('.aglmd-moreinfo').each(function () {
+        var $this = B.$(this);
+        var j = $this.data('infotext');
+
+        var $infotext = $content.find('#aglmd-infotext-' + j);
+        var iid = i + '_' + j;
+
+        parsed.infoTexts[iid] = $infotext.html();
+
+        $this.attr('data-iid', iid);
+        $this.removeAttr('data-infotext');
+
+        $infotext.remove();
+      });
+
+      var content = $content.find('.aglmd-document').html();
+
+      if (section.title.length > 0) {
+        $html.append('<h2>' + section.title + '</h2>');
+      }
+
+      $html.append('<div class="aglmd-section">' + content + '</div>');
+    });
+
+    parsed.content = $html.html();
 
     return parsed;
   }

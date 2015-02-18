@@ -46,7 +46,7 @@ function init () {
       }
       else {
         vmFile.transition({
-          entityId: id
+          fileId: id
         });
       }
     };
@@ -146,7 +146,7 @@ vmFile.on('change', function (vm) {
 
   if (changed.title) {
     stdout.trigger('openFile', {
-      fileId: vm.get('entityId'),
+      fileId: vm.get('fileId'),
       fileTitle: changed.title,
       fileType: vm.get('type')
     });
@@ -156,7 +156,7 @@ vmFile.on('change', function (vm) {
     var nodeIds = changed.nodeIds.slice(0);
 
     stdout.trigger('openNode', {
-      fileId: vm.get('entityId'),
+      fileId: vm.get('fileId'),
       nodeId: nodeIds.pop(),
       nodeIdHistory: nodeIds
     });

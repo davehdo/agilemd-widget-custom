@@ -25,25 +25,22 @@ var Top = B.View.extend({
     // listen for renderable changes
     this.model.on('change', function (vm) {
       var changed = vm.changedAttributes();
-      var viewstate = {};
+      var sets = {};
 
       if (changed.path && changed.path.length) {
         if (changed.path.length === 1) {
-          viewstate.topTitle = this.model.get('title');
-          viewstate.topSubtitle = this.model.get('subtitle');
+          sets.topTitle = this.model.get('title');
+          sets.topSubtitle = this.model.get('subtitle');
         }
         else if (changed.path.length > 1) {
           var path = changed.path.slice(0);
 
-          viewstate.topTitle = path.pop().title;
-          viewstate.topSubtitle = _.pluck(path, 'title').join(' > ');
+          sets.topTitle = path.pop().title;
+          sets.topSubtitle = _.pluck(path, 'title').join(' > ');
         }
       }
 
-      this.model.set(viewstate, {
-        silent: true
-      });
-
+      this.model.set(sets, {silent: true});
       this.render();
     }, this);
 
@@ -77,10 +74,8 @@ var Top = B.View.extend({
     var path = this.model.get('path');
     var title = this.model.get('topTitle');
     var subtitle = this.model.get('topSubtitle');
-    var useBack = (
-      (path && path.length > 1) ||
-      (path && vmFile.get('entityId'))
-    );
+
+    var useBack = (path && path.length > 1);
 
     if (!art && !title && !subtitle && !useBack) {
       this.$el.empty();
@@ -102,13 +97,13 @@ var Top = B.View.extend({
   uiBack: function () {
     var path = this.model.get('path').slice();
     var currentFolder = path[path.length-1];
-    var activeEntityId = vmFile.get('entityId');
+    var activeFileId = vmFile.get('fileId');
 
     // if the active file is in the current path, the transition
     //    must be from viewing a file back to the folder it contained
     // else, pop the folder stack
     if (!_.any(currentFolder.items, function (item) {
-      return item.entityId === activeEntityId;
+      return item.fileId === activeFileId;
     })) {
       path.pop();
     }

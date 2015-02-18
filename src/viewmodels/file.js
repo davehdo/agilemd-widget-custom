@@ -4,71 +4,49 @@ var _ = require('lodash');
 var ViewModel = require('./ViewModel');
 
 var io = require('../services/io');
-var search = require('../services/search');
 
 var algorithms = require('../collections/algorithms');
 var documents = require('../collections/documents');
+var modules = require('../collections/modules');
+var vmNavigator = require('./navigator');
 
-
-// type is used by different file viewers
 var File = ViewModel.extend({
   defaults: {
     title: null,
     type: null,
-    entityId: null,
-    versionId: null
+    fileId: null,
+    moduleId: null
   },
   initialize: function() {
     _.bindAll(this);
 
-    this.on('change:entityId', function () {
-      var entityId = this.get('entityId');
-      var versionId = this.get('versionId');
+    this.on('change:fileId', this.loadFile);
+  },
+  loadFile: function () {
+    var fileId = this.get('fileId');
+    var moduleId = this.get('moduleId');
+    var type = this.get('type');
 
-      if (entityId && !versionId) {
-        search.byId(entityId, function (results) {
-          if (results.length === 0) {
-            io.error('unable to locate valid file for fileId=' + entityId);
-            return;
-          }
-
-          var mostRecentVersion = _.sortBy(results, '_id').pop();
-
-          this.set({
-            type: mostRecentVersion._type,
-            versionId: mostRecentVersion._id
-          });
-        }, this);
-      }
-    }, this);
-
-    this.on('change:versionId', function (vm, versionId) {
-      // ignore transitions
-      if (!versionId)  {
-        return;
-      }
-
+    if (fileId && moduleId && type) {
       var collection;
       var prepare;
 
-      if (vm.get('type') === 'document') {
+      if (type === 'document') {
         collection = documents;
         prepare = this.prepareDocument;
       }
-      else if (vm.get('type') === 'algorithm') {
+      else if (type === 'algorithm') {
         collection = algorithms;
         prepare = this.prepareAlgorithm;
       }
       else {
-        var msg = 'cannot get data for unknown file type fileId=';
-        msg += vm.get('entityId') + ', versionId=' + vm.get('versionId');
-
+        var msg = 'cannot get data for unknown file type fileId=' + fileId;
         io.error(msg);
         return;
       }
 
       // get the file...
-      var file = collection.get(versionId);
+      var file = collection.get(fileId);
 
       // if the file exists, prepare the view model immediately
       // else, hydrate then prepare
@@ -78,16 +56,58 @@ var File = ViewModel.extend({
       }
 
       file = collection.add({
-        _id: versionId,
-        _entityId: vm.get('entityId')
+        fileId: fileId
       });
 
-      file.once('sync', function (newDoc) {
-        prepare(newDoc);
+      file.once('sync', function (remoteFile) {
+        prepare(remoteFile);
       });
 
-      file.hydrate();
-    }, this);
+      file.hydrate(fileId, moduleId);
+    }
+    else if (fileId && !moduleId && !type) {
+      if (modules.length) {
+        return this.findAndLoadFile(fileId);
+      }
+
+      modules.once('sync', function () {
+        this.findAndLoadFile(fileId);
+      }, this);
+
+      modules.hydrate();
+    }
+  },
+  findAndLoadFile: function (fileId) {
+    var fileType;
+    var moduleArt;
+    var moduleId;
+
+    modules.each(function (module) {
+      var files = module.get('files');
+
+      if (_.has(files, fileId)) {
+        fileType = files[fileId].fileType;
+        moduleArt = module.get('art');
+        moduleId = module.id;
+        return false;
+      }
+    });
+
+    if (!moduleId) {
+      io.error('unable to locate valid file for fileId=' + fileId);
+      return;
+    }
+
+    vmNavigator.set({
+      art: moduleArt,
+      moduleId: moduleId
+    }, {silent: true});
+
+    this.transition({
+      type: fileType,
+      fileId: fileId,
+      moduleId: moduleId
+    });
   },
   prepareAlgorithm: function (file) {
     this.set({
