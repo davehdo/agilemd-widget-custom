@@ -76,6 +76,12 @@ var Document = Model.extend({
       $html.append('<div class="aglmd-section">' + content + '</div>');
     });
 
+    $html.find('img').each(function () {
+      var $this = B.$(this);
+      $this.attr('src', $this.data('src-raw'));
+      $this.removeAttr('data-src-raw');
+    });
+
     parsed.content = $html.html();
 
     return parsed;
