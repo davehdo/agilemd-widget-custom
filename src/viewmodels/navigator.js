@@ -42,9 +42,10 @@ var Navigator = ViewModel.extend({
       // load a specific module
       else if (moduleId) {
         var module = this.collection.get(moduleId);
+        var rootFolderId = module.get('rootFolderId');
 
         // if the module is missing OR has not been hydrated, load it
-        if (!module || !module.get('folders')._rootId) {
+        if (!module || !rootFolderId || rootFolderId.length === 0) {
           module = this.collection.add({
             _id: moduleId
           });
@@ -73,6 +74,7 @@ var Navigator = ViewModel.extend({
   },
   prepare: function (module) {
     var folders = module.get('folders');
+    var rootFolderId = module.get('rootFolderId');
 
     this.set({
       // viewed model
@@ -82,7 +84,7 @@ var Navigator = ViewModel.extend({
       subtitle: module.get('title'),
       title: module.get('title'),
       // main-nav state
-      path: [folders[folders._rootId]]
+      path: [folders[rootFolderId]]
     });
   },
   transition: function (toState) {

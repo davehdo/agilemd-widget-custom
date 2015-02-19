@@ -15,6 +15,7 @@ var Module = Model.extend({
     description: '',
     files: {},
     folders: {},
+    rootFolderId: '',
     subtitle: '',
     title: ''
   },
@@ -44,6 +45,7 @@ var Module = Model.extend({
     parsed.subtitle = raw.meta.subtitle;
     parsed.title = raw.meta.title;
 
+    parsed.rootFolderId = raw.data.rootFolderId;
     parsed.folders = raw.data.folders;
     parsed.files = _.reduce(raw.data.files, function (out, f) {
       out[f.fileId] = f;
@@ -52,28 +54,27 @@ var Module = Model.extend({
 
     // parse folder items into renderable iterable
     _.each(parsed.folders, function (folder, folderId) {
-      if (folderId !== '_rootId') {
-        folder._id = folderId;
+      folder._id = folderId;
 
-        parsed.folders[folderId].items = _.map(folder.items, function (item) {
-          if (item.itemType === 'folder') {
-            item.title = parsed.folders[item.itemId].title;
-            item.folderId = item.itemId;
-            item.fileCount = parsed.folders[item.itemId].fileCount;
-          }
-          else {
-            item.title = parsed.files[item.itemId].meta.title;
-            item.fileId = item.itemId;
-            item.moduleId = parsed.moduleId;
-          }
+      parsed.folders[folderId].items = _.map(folder.items, function (item) {
+        if (item.itemType === 'folder') {
+          item.title = parsed.folders[item.itemId].title;
+          item.folderId = item.itemId;
+          item.fileCount = parsed.folders[item.itemId].fileCount;
+        }
+        else {
+          item.title = parsed.files[item.itemId].meta.title;
+          item.fileId = item.itemId;
+          item.moduleId = parsed.moduleId;
+        }
 
-          delete item.itemId;
+        delete item.itemId;
 
-          return item;
-        });
-      }
+        return item;
+      });
     });
 
+    console.log(parsed);
     return parsed;
   }
 });
