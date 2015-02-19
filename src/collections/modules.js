@@ -28,7 +28,12 @@ var Modules = Collection.extend({
     });
   },
   parse: function (raw) {
-    var parsed = raw.modules;
+    raw = raw.modules ? raw.modules : raw;
+
+    // [KE] personal modules should not be displayed via widget
+    var parsed = _.filter(raw, function (m) {
+      return !m.module.meta.isPersonal;
+    });
 
     return parsed;
   }
