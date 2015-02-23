@@ -27,9 +27,8 @@ var Session = Model.extend({
       return;
     }
 
-    if (!config.email) {
-      io.alert('cannot authenticate without an email parameter');
-      return;
+    if (!config.user) {
+      io.warn('integrated owner (user) not specified');
     }
 
     xhr({
@@ -37,10 +36,7 @@ var Session = Model.extend({
       method: 'POST',
       dataType: 'json',
       uri: uris('tokens'),
-      data: {
-        email: config.email,
-        key: config.key
-      },
+      data: config,
       success: function (data) {
         this.set(data);
       },
