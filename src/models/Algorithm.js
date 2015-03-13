@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('lodash');
-
 var io = require('../services/io');
 var Model = require('./Model');
 var session = require('../models/session');

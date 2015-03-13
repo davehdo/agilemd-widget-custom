@@ -5,7 +5,6 @@ var _ = require('lodash');
 var B = require('backdash');
 
 var env = require('../../services/env');
-var io = require('../../services/io');
 var vmModal = require('../../viewmodels/modal');
 
 

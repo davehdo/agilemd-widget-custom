@@ -28,6 +28,12 @@ var uris = {
     },
     view: 'native-8.0'
   },
+  fileFlowchart: {
+    uri: function (context) {
+      return '/v3/modules/' + context.moduleId + '/flowcharts/' + context.fileId;
+    },
+    view: 'native-2.0'
+  },
   tokens: {
     uri: function () {
       return '/v3/tokens';

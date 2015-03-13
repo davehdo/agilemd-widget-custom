@@ -7,6 +7,7 @@ var io = require('../services/io');
 
 var algorithms = require('../collections/algorithms');
 var documents = require('../collections/documents');
+var flowcharts = require('../collections/flowcharts');
 var modules = require('../collections/modules');
 var vmNavigator = require('./navigator');
 
@@ -34,6 +35,10 @@ var File = ViewModel.extend({
       if (type === 'document') {
         collection = documents;
         prepare = this.prepareDocument;
+      }
+      else if (type === 'flowchart') {
+        collection = flowcharts;
+        prepare = this.prepareFlowchart;
       }
       else if (type === 'algorithm') {
         collection = algorithms;
@@ -126,7 +131,16 @@ var File = ViewModel.extend({
       textDir: file.get('textDir'),
       title: file.get('title')
     });
-  }
+  },
+  prepareFlowchart: function (file) {
+    this.set({
+      attribution: file.get('attribution'),
+      chart: file.get('chart'),
+      chartStyle: file.get('chartStyle') || '',
+      content: file.get('content'),
+      title: file.get('title')
+    });
+  },
 });
 
 

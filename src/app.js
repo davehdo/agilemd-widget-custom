@@ -23,7 +23,8 @@ var subviewEl = '.aglmd-content';
 var Subviews = [
   require('./views/navigator/folder'),
   require('./views/file/algorithm'),
-  require('./views/file/document')
+  require('./views/file/document'),
+  require('./views/file/flowchart')
 ];
 
 

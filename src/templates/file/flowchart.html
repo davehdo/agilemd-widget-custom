@@ -1,0 +1,9 @@
+@!(chart, chartStyle, hasExtraContent)
+
+<div class="aglmd-file-flowchart" style="@chartStyle">
+  @chart
+
+  @if (hasExtraContent) {
+    <div class="aglmd-flowchart-openextra"></div>
+  }
+</div>

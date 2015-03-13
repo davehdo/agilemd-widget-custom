@@ -14,6 +14,7 @@
         top: 0;
         left: 0;
         width: 100%;
+      z-index: 101;
 
       .aglmd-modal-header {
         @include nowrap();
@@ -55,11 +56,16 @@
 
       .aglmd-modal-content {
         background: $color-5-0;
-        max-height: 75%;
+        max-height: 80%;
         overflow-y: auto;
           -webkit-overflow-scrolling: touch;
         padding: 1.375*$gutter-double 1.5*$gutter-half 1.5*$gutter-half 1.5*$gutter-half;
         width: 100%;
+
+        .aglmd-section-header {
+          color: $color-4-1;
+          font-size: $height-font-m;
+        }
 
         p {
           margin: 0;
@@ -91,6 +97,7 @@
         right: 0;
         bottom: 0;
         left: 0;
+      z-index: 100;
     }
   }
 

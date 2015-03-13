@@ -74,7 +74,6 @@ var Module = Model.extend({
       });
     });
 
-    console.log(parsed);
     return parsed;
   }
 });
