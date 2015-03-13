@@ -74,6 +74,8 @@ var Module = Model.extend({
       });
     });
 
+    parsed.folders[parsed.rootFolderId].title = parsed.title;
+
     return parsed;
   }
 });
