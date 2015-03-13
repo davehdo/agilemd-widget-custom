@@ -41,7 +41,7 @@
   "private": true,
   "scripts": {
     "dev": "node ./dev/server & node bundler -w -m & rm -rf _build/css & sass --watch src/sass:_build/css",
-    "build": "node bundler && rm -rf _build/css && sass --update src/sass:_build/css --style compressed",
+    "build": "node bundler && rm -rf _build/css && sass --update src/sass:_build/css --style compressed --sourcemap=none",
     "zip": "gzip -9 _build/app.js && mv _build/app.js.gz _build/app.js && gzip -9 _build/css/app.css && mv _build/css/app.css.gz _build/css/app.css"
   },
   "repository": {
