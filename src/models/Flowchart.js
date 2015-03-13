@@ -8,11 +8,12 @@ var session = require('../models/session');
 var uris = require('../services/uris');
 
 
-var Document = Model.extend({
+var Flowchart = Model.extend({
   idAttribute: 'fileId',
   defaults: {
     fileId: null,
     attribution: null,
+    chart: '',
     content: '',
     title: null
   },
@@ -71,4 +72,4 @@ var Document = Model.extend({
 });
 
 
-module.exports = Document;
+module.exports = Flowchart;

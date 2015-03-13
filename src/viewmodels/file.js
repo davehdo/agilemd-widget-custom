@@ -5,10 +5,12 @@ var ViewModel = require('./ViewModel');
 
 var io = require('../services/io');
 
+var modules = require('../collections/modules');
 var algorithms = require('../collections/algorithms');
 var documents = require('../collections/documents');
 var flowcharts = require('../collections/flowcharts');
-var modules = require('../collections/modules');
+var pdfs = require('../collections/pdfs');
+
 var vmNavigator = require('./navigator');
 
 var File = ViewModel.extend({
@@ -43,6 +45,10 @@ var File = ViewModel.extend({
       else if (type === 'algorithm') {
         collection = algorithms;
         prepare = this.prepareAlgorithm;
+      }
+      else if (type === 'pdf') {
+        collection = pdfs;
+        prepare = this.preparePDF;
       }
       else {
         var msg = 'cannot get data for unknown file type fileId=' + fileId;
@@ -141,6 +147,13 @@ var File = ViewModel.extend({
       title: file.get('title')
     });
   },
+  preparePDF: function (file) {
+    this.set({
+      attribution: file.get('attribution'),
+      title: file.get('title'),
+      url: file.get('url')
+    });
+  }
 });
 
 

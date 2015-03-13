@@ -24,7 +24,8 @@ var Subviews = [
   require('./views/navigator/folder'),
   require('./views/file/algorithm'),
   require('./views/file/document'),
-  require('./views/file/flowchart')
+  require('./views/file/flowchart'),
+  require('./views/file/pdf')
 ];
 
 

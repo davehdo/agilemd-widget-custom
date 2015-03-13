@@ -34,6 +34,12 @@ var uris = {
     },
     view: 'native-2.0'
   },
+  filePDF: {
+    uri: function (context) {
+      return '/v3/modules/' + context.moduleId + '/pdfs/' + context.fileId;
+    },
+    view: 'native-6.0'
+  },
   tokens: {
     uri: function () {
       return '/v3/tokens';
