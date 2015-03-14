@@ -67,6 +67,12 @@ var Document = Model.extend({
         $infotext.remove();
       });
 
+      $content.find('img').each(function () {
+        var $this = B.$(this);
+        $this.attr('src', $this.data('src-raw'));
+        $this.removeAttr('data-src-raw');
+      });
+
       var content = $content.find('.aglmd-document').html();
 
       if (section.title.length > 0) {
@@ -74,12 +80,6 @@ var Document = Model.extend({
       }
 
       $html.append('<div class="aglmd-section">' + content + '</div>');
-    });
-
-    $html.find('img').each(function () {
-      var $this = B.$(this);
-      $this.attr('src', $this.data('src-raw'));
-      $this.removeAttr('data-src-raw');
     });
 
     parsed.content = $html.html();

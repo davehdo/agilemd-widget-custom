@@ -81,7 +81,7 @@ var Navigator = ViewModel.extend({
       moduleId: module.id,
       art: module.get('art'),
       folders: folders,
-      subtitle: module.get('title'),
+      subtitle: module.get('subtitle'),
       title: module.get('title'),
       // main-nav state
       path: [folders[rootFolderId]]
