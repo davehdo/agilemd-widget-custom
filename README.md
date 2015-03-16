@@ -35,7 +35,6 @@ Within the `<head>` of your document, add a `<script>` block containing:
 })(document, window.agilemd || {});
 
 agilemd.init({
-  email: 'me@example.com',
   token: 'pk_live_EXAMPLE'
 });
 ```
