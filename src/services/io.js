@@ -21,7 +21,7 @@ var stdout = _.extend({}, B.Events);
 
 // convert the global context to an event emitter
 //      NOTE: only the subscription mechanism is exposed
-global.agilemd.on = stdout.on;
+global.agilemd.on = _.bind(stdout.on, stdout);
 
 // apply previously created handlers; capture last init command
 _.each(global.agilemd._q, function (cmd) {
