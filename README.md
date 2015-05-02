@@ -1,4 +1,4 @@
-<a href="http://promisesaplus.com/">
+<a href="https://agilemd.com/">
     <img src="https://cdn.agilemd.com/assets/logo/github_hxvvitf8.png" alt="AgileMD" title="by AgileMD, Inc." align="right" />
 </a>
 
