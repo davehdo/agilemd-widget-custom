@@ -1,113 +1,44 @@
-<a href="https://agilemd.com/">
-    <img src="https://cdn.agilemd.com/assets/logo/github_hxvvitf8.png" alt="AgileMD" title="by AgileMD, Inc." align="right" />
-</a>
+# Introduction
+This is a fork of AgileMD's widget. AgileMD is a programmatic, embeddable, web-based view for medical information.
 
-Widget
-======
+I changed settings to display custom content by redirecting the data source to the local API rather than AgileMD's.
 
-A programmatic, embeddable, web-based view for [AgileMD](http://www.agilemd.com).
+# Setup
+Because AgileMD uses Browserify to manage js dependencies, we need to build package
+into a single js file and a single css file, to be included in our final app.
 
+1. `cd` into the project folder and run `npm install`. Then, execute:
+2. To run, execute `npm run dev`
+3. Edit API paths in `src/services/uris.js`
+4. To compile, type `npm run build`. This generates `_build/app.js` and `_build/css/app.css`.
 
 ### Instantiation
 
-Within the `<head>` of your document, add a `<script>` block containing:
 
-```javascript
-(function (d, a) {
-  window.agilemd = a;
-  var q, r, s, t;
-  q = ['init', 'open', 'on'];
-  s = d.createElement('script');
-  s.type = 'text/javascript';
-  s.async = !0;
-  s.src = 'https://cdn.agilemd.com/widget/3/app.js';
-  a._v = 3.0; a._s = s.src; a._q = [];
-  r = function (m) {
-    return function () {
-      a._q.push([m, Array.prototype.slice.call(arguments)]);
-    };
-  };
-  for (i = 0; i < q.length; i++) {
-    a[q[i]] = r(q[i]);
-  }
-  t = d.getElementsByTagName('script')[0];
-  t.parentNode.insertBefore(s, t);
-})(document, window.agilemd || {});
 
-agilemd.init({
-  token: 'pk_live_EXAMPLE'
-});
-```
 
 Within the `<body>` of your document:
 
 ```html
-<div id="agilemd"></div>
+    <div id="agilemd"></div>
+    <script src="js/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+	<script type="text/javascript" charset="utf-8">
+
+
+	  // use in local development only; toggles asset location (local vs CDN)
+	  agilemd.DEBUG = true;
+
+	  // the public demo account; no referer or CDIR validation; throttled
+	  agilemd.init({
+	    // disableNavigation: true,
+	    key: 'pk_test_2anGbkcDbLVnMxfZa3ghfmz61syheLFfnDYCQEDxUTaf3axr'
+	  });
+
+	  // agilemd.open('file', '518d6b4d8c0cc8a65f000001');
+
+	  agilemd.on('all', function (eventName, eventData) {
+	    console.log(eventName, eventData);
+	  });
+	</script>
 ```
-
-
-### Documentation
-
-- [Implementation](https://github.com/agilemd/widget/wiki/Implementation)
-- [Demos](http://agilemd.github.io/web-widget)
-- [Client API](https://github.com/agilemd/widget/wiki/Client-API)
-- [Client Errors](https://github.com/agilemd/widget/wiki/Client-Errors)
-- [Supported Platforms](https://github.com/agilemd/widget/wiki/Supported-Platforms)
-- [Public & Private Keys](https://github.com/agilemd/widget/wiki/Public-&-Private-Keys)
-- [Release Strategy & History](https://github.com/agilemd/widget/wiki/Release-Strategy-&-History)
-- [Issue Templates](https://github.com/agilemd/widget/wiki/Issue-Templates)
-- [Style Guide](https://github.com/agilemd/widget/wiki/Style-Guide)
-
-
-### Get an API Key
-
-Access to AgileMD content via widget requires a Public API Key. You can obtain a key for your project by contacting support@agilemd.com.
-
-
-### Contribute
-
-First, review our [contribution guidelines](https://github.com/agilemd/widget/blob/master/CONTRIBUTING.md). Then, [fork](https://github.com/agilemd/widget/fork) and clone this repository to your local machine. You need [node](http://nodejs.org) and [SASS](http://sass-lang.com) installed and available in your `$PATH`.
-
-**Development**
-
-`cd` into the project folder and run `npm install`. Then, execute:
-
-```
-npm run dev
-```
-
-This command launches several processes in parallel:
-
-- Run the [browserify](http://browserify.org) bundler in [watch mode](https://github.com/substack/watchify) with [source maps](https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps) enabled
-- Run SASS in watch mode to compile CSS on-the-fly
-- Run a local [express](http://expressjs.com) server on port `8080` to serve assets
-
-Any change to a traceable project file is detected by the respective agent (browserify and SASS) and immediately triggers a rebuild of the target asset. Errors, updates, and performance data are logged to `stdout`.
-
-By default, the dev server uses a demo API key to provide access to AgileMD content. You can use your own API key by editing `./dev/views/_head.ejs` to test Widget against your own resources.
-
-**Components**
-
-Widget builds upon several well-tested projects. And, thanks to browserify, components do not leak any variables into the global namespace.
-
-- [backbone](http://backbonejs.org) via [backdash](https://www.npmjs.org/package/backdash) (Organizing framework)
-- [lodash](http://lodash.com/docs) (Utility functions)
-- [zepto](http://zeptojs.com/) custom build (DOM manipulation & XHR)
-
-**Generate [zepto.js](https://github.com/madrobby/zepto/blob/master/README.md)**
-
-1. Clone `git@github.com:madrobby/zepto.git`, run `npm install`
-2. Run `MODULES="zepto event ajax touch selector" npm run-script dist` in zepto repo
-3. Copy un-minified (dev) version to `./lib` in this repository
-4. Add new last line: `module.exports = Zepto;` and remove any `window` setters
-5. In bundler entry file, require Zepto into backdash instance: `B.$ = require('./lib/zepto');`
-
-**Build**
-
-To output production-level assets (which adds uglification and minification), run:
-
-```
-npm run build
-```
-
-Assets are built into `./_build`.
