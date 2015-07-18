@@ -1,6 +1,7 @@
 'use strict';
 
-var HOST = 'https://api.agilemd.com';
+var HOST = '';
+// https://api.agilemd.com
 
 
 var uris = {
