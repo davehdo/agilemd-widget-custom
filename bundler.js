@@ -1,3 +1,9 @@
+/* 
+  running from the command line "node bundler" will
+  run this, which uses browserify's bundler method to 
+  compile javascript files, with their "require" functions
+  into one single javascript
+*/
 /* jslint node: true */
 'use strict';
 
