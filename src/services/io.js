@@ -1,3 +1,12 @@
+// because authentication happens asynchronously, the app queue's user-initiated events
+// until authentication is completed
+// after which, screen-change events can be initiated by the following:
+//    agilemd.open("document", "5435ad66bbc92924140001d2")
+// which in turn calls 
+//    vmNavigator.transition({moduleId: id})  ->  vmFile = require('../viewmodels/file');
+// or 
+//    vmFile.transition({fileId: id});  ->  vmNavigator = require('../viewmodels/navigator');
+
 'use strict';
 
 var ERRORS = {
@@ -38,7 +47,9 @@ function init () {
 
   // once auth received, play last recorded open event
   session.on('change:token', function () {
+    console.log("Session on change token")
     global.agilemd.open = function (type, id) {
+      console.log("API request to open "+type+" with id "+id)
       if (type === 'module') {
         vmNavigator.transition({
           moduleId: id
@@ -58,10 +69,12 @@ function init () {
     });
 
     if (cmdOpen) {
+      console.log("Running cmdOpen")
       global.agilemd.open.apply(null, cmdOpen[1]);
     } else {
       // set an known unknown state; default the app into viewing the
       //      first module to which the token provides access
+      console.log("Defaulting to first module to which the token provides access")
       vmNavigator.transition({
         moduleId: -1
       });

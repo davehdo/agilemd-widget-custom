@@ -12,6 +12,12 @@ into a single js file and a single css file, to be included in our final app.
 3. Edit API paths in `src/services/uris.js`
 4. To compile, type `npm run build`. This generates `_build/app.js` and `_build/css/app.css`.
 
+# How it works
+1. User requests root path
+2. Routing occurs in dev/server.js
+3. Root path will render fixed.ejs
+4. app.js defines App object, which is instantiated
+
 ### Instantiation
 
 

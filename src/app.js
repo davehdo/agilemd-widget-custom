@@ -6,7 +6,7 @@ B.$ = require('./lib/zepto');
 
 var env = require('./services/env');
 var io = require('./services/io');
-require('./services/log');
+// require('./services/log');
 
 var app;
 var appElId = 'agilemd';
@@ -39,6 +39,7 @@ var Subviews = [
     elAgileMD.style.width = elAgileMD.style.width || '100%';
   }
 
+  // plan to comment out because we can include our css separately, generated from the build
   var stylesheet = document.createElement('link');
   stylesheet.href = global.agilemd.DEBUG ?
     '/css/app.css' :
@@ -57,6 +58,7 @@ var App = B.View.extend({
   initialize: function() {
     _.bindAll(this);
 
+
     if (this.$el.is('body')) {
       io.warn(appElId + ' is the <body> element; setting html & body height');
 
@@ -67,7 +69,11 @@ var App = B.View.extend({
       B.$('html, body').addClass('aglmd-is-body');
     }
 
+    //
     this.setScroll();
+    
+    // renders the template which has been defined above as  ./templates/app.html
+    // this is a series of divs that will contain the content
     this.render();
 
     // setup persistant top navigation
@@ -105,6 +111,7 @@ var App = B.View.extend({
     }, this);
 
     // start the application bus and replay queued commands
+    // this grabs the content and places it in the containers
     io.init();
 
     // i can haz DOM?

@@ -41,6 +41,8 @@ var Folder = B.View.extend({
     return this;
   },
   uiOpenFolderItem: function (e) {
+    // this is the event run when an item within a folder is clicked
+    console.log("uiOpenFolderItem")
     var $tgt = B.$(e.target);
     var $folder = $tgt.closest('.aglmd-folder');
     var $item = $tgt.closest('.aglmd-folder-item');
