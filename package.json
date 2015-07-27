@@ -16,7 +16,8 @@
   "dependencies": {
     "backdash": "1.1.2-2.4.1",
     "lodash": "2.4.1",
-    "ua-parser-js": "0.7.3"
+    "ua-parser-js": "0.7.3",
+    "mongoose" : "~3.8.0"
   },
   "devDependencies": {
     "argparse": "0.1.15",

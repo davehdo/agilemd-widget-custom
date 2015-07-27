@@ -49,9 +49,13 @@ var Document = Model.extend({
     var $html = B.$('<div>');
 
     _.each(raw.data.sections, function (section, i) {
+      // creates a new div element for this section, to be inserted later into the DOM
       var $content = B.$('<div>');
+
+      // fills the new div with section content
       $content.html(section.content);
 
+      // if there are moreinfo sections then do a special manipulation
       $content.find('.aglmd-moreinfo').each(function () {
         var $this = B.$(this);
         var j = $this.data('infotext');
@@ -67,14 +71,21 @@ var Document = Model.extend({
         $infotext.remove();
       });
 
+      // if there are images then do a special manipulation
       $content.find('img').each(function () {
         var $this = B.$(this);
         $this.attr('src', $this.data('src-raw'));
         $this.removeAttr('data-src-raw');
       });
-
+      
       var content = $content.find('.aglmd-document').html();
 
+      // DHD modification: if there is no .aglmd-document section within
+      // the HTML then include all of section.contents
+      if (content == null) {
+        content = $content.html()
+      }
+      
       if (section.title.length > 0) {
         $html.append('<h2>' + section.title + '</h2>');
       }

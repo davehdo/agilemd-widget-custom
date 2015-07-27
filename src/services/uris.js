@@ -1,7 +1,6 @@
 'use strict';
 
-var HOST = '';
-// https://api.agilemd.com
+var HOST = 'https://agile-content-editor-davehdo.c9.io';
 
 
 var uris = {
@@ -13,7 +12,7 @@ var uris = {
   },
   modules: {
     uri: function (context) {
-      return '/v3/users/' + context.clientId + '/modules';
+      return '/folders.json';
     },
     view: 'native-7.0'
   },
@@ -25,7 +24,7 @@ var uris = {
   },
   fileDocument: {
     uri: function (context) {
-      return '/v3/modules/' + context.moduleId + '/documents/' + context.fileId;
+      return '/docs/' + context.fileId + ".json";
     },
     view: 'native-8.0'
   },

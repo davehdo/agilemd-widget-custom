@@ -129,6 +129,8 @@ var File = ViewModel.extend({
     });
   },
   prepareDocument: function (file) {
+    // at this point, file.get(content) includes all sections
+    
     this.set({
       attribution: file.get('attribution'),
       content: file.get('content') || '',
