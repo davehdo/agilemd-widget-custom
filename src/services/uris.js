@@ -1,6 +1,6 @@
 'use strict';
 
-var HOST = 'https://agile-content-editor-davehdo.c9.io';
+var HOST = 'http://handbook-publisher.herokuapp.com';
 
 
 var uris = {

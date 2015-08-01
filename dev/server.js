@@ -7,20 +7,6 @@ var app = express();
 
 // server routes ===========================================================
 
-// sample api route
-// app.get('/v3/modulesfolders', function(req, res) {
-//     // use mongoose to get all nerds in the database
-//     Nerd.find(function(err, nerds) {
-
-//         // if there is an error retrieving, send the error. 
-//                         // nothing after res.send(err) will execute
-//         if (err)
-//             res.send(err);
-
-//         res.json(nerds); // return all nerds in JSON format
-//     });
-// });
-
 // route to handle creating goes here (app.post)
 // route to handle delete goes here (app.delete)
 
@@ -41,16 +27,8 @@ app.get('/app.js', function (req, res) {
   res.sendfile('./_build/app.js');
 });
 
-// app.get('/fluid', function (req, res) {
-//   res.render('fluid', {});
-// });
-
-// app.get('/full', function (req, res) {
-//   res.render('full', {});
-// });
-
 app.get('/', function (req, res) {
-  res.render('fixed', {});
+  res.render('full', {}); // options are fluid, full, and fixed (see dev/views/*)
 });
 
 // set up route to public folder
@@ -60,13 +38,6 @@ app.post('/v3/tokens', function (req, res) {
 
 app.use(express.static( 'public'));
 
-// GET /v3/users/*/modules
-app.get('/v3/users/*/modules', function (req, res) {
-  res.sendfile("./public/v3/modules")
-});
-
-// GET /v3/modules/:module_id/documents/:document_id
- 
 app.use(express.static('./dev/assets'));
 
 app.listen(PORT);
